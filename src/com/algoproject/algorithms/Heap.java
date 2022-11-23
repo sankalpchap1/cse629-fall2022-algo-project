@@ -16,6 +16,7 @@ public class Heap {
     int[] heap;
     int[] heapD;
     int[] heapP;
+
 //	Could not get across some edge cases to use H[], D[] and P[] so a different approach to heap is used.
 
     //    Constructor to add list of fringes
