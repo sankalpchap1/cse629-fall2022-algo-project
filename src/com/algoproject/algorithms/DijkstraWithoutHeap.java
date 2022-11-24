@@ -17,12 +17,15 @@ public class DijkstraWithoutHeap {
         int[] dad = new int[n];
         List<Vertex> fringes = new ArrayList<>();
         status[source] = intree;
+        bw[source] = Integer.MAX_VALUE;
+        dad[source] = -1;
         // add nodes from source's adj list to the fringes
         Vertex temp = graph[source];
         while (temp != null) {
             status[temp.getVertex()] = fringe;
             dad[temp.getVertex()] = source;
             bw[temp.getVertex()] = temp.getEdgeWeight();
+//            temp.setBw(temp.getEdgeWeight());// set bw of source immediate vertex to edgeWt
             fringes.add(temp);
             temp = temp.getNext();
         }
@@ -37,12 +40,14 @@ public class DijkstraWithoutHeap {
                     status[node.getVertex()] = fringe;
                     dad[node.getVertex()] = maxFringe.getVertex();
                     bw[node.getVertex()] = Math.min(bw[maxFringe.getVertex()], node.getEdgeWeight());
-                    fringes.add(new Vertex(node.getVertex(), bw[node.getVertex()], 0, null) {
-                    });
+//                    node.setBw(bw[node.getVertex()]);
+                    fringes.add(new Vertex(node.getVertex(), bw[node.getVertex()], 0, null));
+//                    fringes.add(node);
                 } else if (status[node.getVertex()] == fringe
                         && bw[node.getVertex()] < Math.min(bw[maxFringe.getVertex()], node.getEdgeWeight())) {
                     dad[node.getVertex()] = maxFringe.getVertex();
                     bw[node.getVertex()] = Math.min(bw[maxFringe.getVertex()], node.getEdgeWeight());
+//                    node.setBw(bw[node.getVertex()]);
                     updateFringe(fringes, node.getVertex(), bw[node.getVertex()]);
                 }
                 node = node.getNext();
@@ -50,22 +55,28 @@ public class DijkstraWithoutHeap {
         }
         // get max bw and path from t to s
         System.out.println("Max bandwidth without heap using Dijkstra is: " + bw[target]);
-        System.out.print("s-t path: ");
-        while (target != source) {
-            System.out.print(target + " <-- ");
-            target = dad[target];
-        }
-        System.out.println(target);
+//        System.out.print("s-t path: ");
+//        while (target != source) {
+//            System.out.print(target + " <-- ");
+//            target = dad[target];
+//        }
+//        System.out.println(target);
     }
 
     //	Get the Max Fringe from a list of Fringes
     private static Vertex getMaxFringe(List<Vertex> fringes) {
-        Vertex maxFringe = new Vertex(-1, -1, 0, null);
+        Vertex maxFringe = null;
+        int maxBW = fringes.stream().map(Vertex::getEdgeWeight)
+                .mapToInt(v -> v)
+                .max()
+                .getAsInt();
+
         int id = -1;
         for (int i = 0; i < fringes.size(); i++) {
-            if (fringes.get(i).getEdgeWeight() > maxFringe.getEdgeWeight()) {
-                maxFringe = fringes.get(i);
+            if (fringes.get(i).getEdgeWeight() == maxBW){
                 id = i;
+                maxFringe = fringes.get(i);
+                break;
             }
         }
         fringes.remove(id);

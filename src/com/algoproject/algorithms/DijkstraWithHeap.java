@@ -18,13 +18,14 @@ public class DijkstraWithHeap {
         status[s] = intree;
 
         // add nodes from src
-        Vertex head = graph[s];
-        while (head != null) {
-            status[head.getVertex()] = fringe;
-            dad[head.getVertex()] = s;
-            bw[head.getVertex()] = head.getEdgeWeight();
-            fringes.add(head);
-            head = head.getNext();
+        Vertex temp = graph[s];
+        while (temp != null) {
+            status[temp.getVertex()] = fringe;
+            dad[temp.getVertex()] = s;
+            bw[temp.getVertex()] = temp.getEdgeWeight();
+//            temp.setBw(temp.getEdgeWeight());
+            fringes.add(temp);
+            temp = temp.getNext();
         }
         Heap heap = new Heap(fringes);
 
@@ -39,12 +40,16 @@ public class DijkstraWithHeap {
                     status[node.getVertex()] = fringe;
                     dad[node.getVertex()] = maxFringe.getVertex();
                     bw[node.getVertex()] = Math.min(bw[maxFringe.getVertex()], node.getEdgeWeight());
+//                    node.setBw(bw[node.getVertex()]);
+//                    heap.insert(node);
                     heap.insert(new Vertex(node.getVertex(), bw[node.getVertex()], 0, null));
                 } else if (status[node.getVertex()] == fringe
                         && bw[node.getVertex()] < Math.min(bw[maxFringe.getVertex()], node.getEdgeWeight())) {
                     heap.delete(node.getVertex());
                     dad[node.getVertex()] = maxFringe.getVertex();
                     bw[node.getVertex()] = Math.min(bw[maxFringe.getVertex()], node.getEdgeWeight());
+//                    node.setBw(bw[node.getVertex()]);
+//                    heap.insert(node);
                     heap.insert(new Vertex(node.getVertex(), bw[node.getVertex()], 0, null));
                 }
                 node = node.getNext();
@@ -53,11 +58,11 @@ public class DijkstraWithHeap {
 
         // get max bw and path from dest to src
         System.out.println("Max bandwidth with heap using Dijkstra is: " + bw[target]);
-        System.out.print("s-target path: ");
-        while (target != s) {
-            System.out.print(target + " <-- ");
-            target = dad[target];
-        }
-        System.out.println(target);
+//        System.out.print("s-target path: ");
+//        while (target != s) {
+//            System.out.print(target + " <-- ");
+//            target = dad[target];
+//        }
+//        System.out.println(target);
     }
 }

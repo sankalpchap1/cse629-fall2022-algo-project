@@ -8,9 +8,14 @@ public class GraphGeneration {
     public static Random random = new Random(); // random number generator
     //	Generate a connected graph -> Each vertex is connected to it's next vertex forming a circular graph
     public static void generateConnectedGraph(Vertex[] graph, int n, int weightLimit) {
+//        long countOfMaxWeight = 0;
+//        long totalEdge = 0;
         for (int i=0; i<n; i++){
-            int randWeight = random.nextInt(weightLimit + 1 - weightLimit / 2) + weightLimit / 2;
-
+            int randWeight = getRandomWeight(weightLimit);
+//            if (randWeight == weightLimit){
+//                countOfMaxWeight++;
+//            }
+//            totalEdge++;
             // Adding i+1 th vertex in i's adj list
             if (graph[i] == null) {
                 graph[i] = new Vertex((i + 1) % n, randWeight, 1, null);
@@ -27,12 +32,15 @@ public class GraphGeneration {
                 graph[(i + 1) % n] = newVertex;
             }
         }
+//        System.out.println("countOfMaxWeight: "+countOfMaxWeight);
+//        System.out.println("totalEdge: "+totalEdge);
     }
 
     public static void completeGraph(Vertex[] graph, int n, int weightLimit, int targetDegree) {
         int destination; // random destination variable
         int weight; // random edge weight generator variable
-
+//        long countOfMaxWeight = 0;
+//        long totalEdge = 0;
         for (int i = 0; i < n; i++) {
 
             int currDegree = graph[i].getDegree();
@@ -42,20 +50,32 @@ public class GraphGeneration {
                 if (!checkAdjList(graph[i], destination)
                         && i != destination
                 ) {
-                    weight = random.nextInt(weightLimit + 1 - weightLimit / 2) + weightLimit / 2;
+                    weight = getRandomWeight(weightLimit);
+//                    if (weight == weightLimit){
+//                        countOfMaxWeight++;
+//                    }
+//                    totalEdge++;
                     graph[i] = new Vertex(destination, weight, graph[i].getDegree() + 1, graph[i]);
                     graph[destination] = new Vertex(i, weight, graph[destination].getDegree() + 1, graph[destination]);
                     currDegree++;
                 }
             }
         }
+//        System.out.println("countOfMaxWeight: "+countOfMaxWeight);
+//        System.out.println("totalEdge: "+totalEdge);
+    }
+
+    private static int getRandomWeight(int weightLimit) {
+        return random.nextInt(weightLimit + 1 - weightLimit / 2) + weightLimit / 2;
     }
 
     private static boolean checkAdjList(Vertex vertex, int destination) {
         while (vertex != null) {
-            if (vertex.getVertex() == destination)
+            if (vertex.getVertex() == destination){
                 return true;
-            vertex = vertex.getNext();
+            } else {
+                vertex = vertex.getNext();
+            }
         }
         return false;
     }
