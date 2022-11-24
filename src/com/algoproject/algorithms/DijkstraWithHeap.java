@@ -1,26 +1,28 @@
 package com.algoproject.algorithms;
 
+import com.algoproject.model.Status;
 import com.algoproject.model.Vertex;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import static com.algoproject.model.Status.*;
+
 public class DijkstraWithHeap {
-    public static void apply(Vertex[] graph, int s, int target, int noOfNodes) {
-        int unseen = 0;
-        int fringe = 1;
-        int intree = 2;
-        int[] status = new int[noOfNodes];
-        int[] bw = new int[noOfNodes];
-        int[] dad = new int[noOfNodes];
+    public static void apply(Vertex[] graph, int s, int target, int n) {
+        Status[] status = new Status[n];
+        Arrays.fill(status, UNSEEN);
+        int[] bw = new int[n];
+        int[] dad = new int[n];
         List<Vertex> fringes = new ArrayList<>();
 
-        status[s] = intree;
+        status[s] = INTREE;
 
         // add nodes from src
         Vertex temp = graph[s];
         while (temp != null) {
-            status[temp.getVertex()] = fringe;
+            status[temp.getVertex()] = FRINGE;
             dad[temp.getVertex()] = s;
             bw[temp.getVertex()] = temp.getEdgeWeight();
 //            temp.setBw(temp.getEdgeWeight());
@@ -33,17 +35,17 @@ public class DijkstraWithHeap {
         // fringe
         while (!heap.maxHeap.isEmpty()) {
             Vertex maxFringe = heap.popMax();
-            status[maxFringe.getVertex()] = intree;
+            status[maxFringe.getVertex()] = INTREE;
             Vertex node = graph[maxFringe.getVertex()];
             while (node != null) {
-                if (status[node.getVertex()] == unseen) {
-                    status[node.getVertex()] = fringe;
+                if (status[node.getVertex()] == UNSEEN) {
+                    status[node.getVertex()] = FRINGE;
                     dad[node.getVertex()] = maxFringe.getVertex();
                     bw[node.getVertex()] = Math.min(bw[maxFringe.getVertex()], node.getEdgeWeight());
 //                    node.setBw(bw[node.getVertex()]);
 //                    heap.insert(node);
                     heap.insert(new Vertex(node.getVertex(), bw[node.getVertex()], 0, null));
-                } else if (status[node.getVertex()] == fringe
+                } else if (status[node.getVertex()] == FRINGE
                         && bw[node.getVertex()] < Math.min(bw[maxFringe.getVertex()], node.getEdgeWeight())) {
                     heap.delete(node.getVertex());
                     dad[node.getVertex()] = maxFringe.getVertex();
@@ -58,11 +60,11 @@ public class DijkstraWithHeap {
 
         // get max bw and path from dest to src
         System.out.println("Max bandwidth with heap using Dijkstra is: " + bw[target]);
-//        System.out.print("s-target path: ");
-//        while (target != s) {
-//            System.out.print(target + " <-- ");
-//            target = dad[target];
-//        }
-//        System.out.println(target);
+        System.out.print("s-target path: ");
+        while (target != s) {
+            System.out.print(target + " <-- ");
+            target = dad[target];
+        }
+        System.out.println(target);
     }
 }
