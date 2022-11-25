@@ -55,7 +55,7 @@ public class Main {
                 end_time = System.nanoTime();
                 time_req = (end_time-start_time)/1000000;
                 System.out.println("TimeRequires for Kruskal: "+time_req);
-                if (djWithoutBW!=kruskalBW) {
+                if (djWithoutBW!=djWithBW) {
                     counter++;
                     System.out.println("COUNTER::"+counter);
                 }
@@ -95,14 +95,12 @@ public class Main {
                 end_time = System.nanoTime();
                 time_req = (end_time-start_time)/1000000;
                 System.out.println("TimeRequires for Kruskal: "+time_req);
-                if (djWithoutBW!=kruskalBW) {
+                if (djWithoutBW!=djWithBW) {
                     counter++;
                     System.out.println("COUNTER::"+counter);
                 }
                 System.out.println("============================================");
             }
-
-            System.out.println("FINAL COUNTER: "+counter);
 
             System.out.println("Ending here");
 
@@ -126,6 +124,7 @@ public class Main {
 //        DijkstraWithHeap.apply(graph3, s3, t3, n3);
 //        System.out.println("Ending here");
         }
+        System.out.println("FINAL COUNTER: "+counter);
     }
 
     private static void printAdjMatrix(Vertex[] graph, int n){
