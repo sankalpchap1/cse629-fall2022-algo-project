@@ -1,5 +1,6 @@
 package com.algoproject.algorithms;
 
+import com.algoproject.model.Graph;
 import com.algoproject.model.Status;
 import com.algoproject.model.Vertex;
 
@@ -10,17 +11,18 @@ import java.util.List;
 import static com.algoproject.model.Status.*;
 
 public class DijkstraWithHeap {
-    public static void apply(Vertex[] graph, int s, int target, int n) {
+    public static int apply(Graph graph, int s, int target, int n) {
         Status[] status = new Status[n];
         Arrays.fill(status, UNSEEN);
         int[] bw = new int[n];
         int[] dad = new int[n];
+        Vertex[] vertices = graph.getVertices();
         List<Vertex> fringes = new ArrayList<>();
 
         status[s] = INTREE;
 
         // add nodes from src
-        Vertex temp = graph[s];
+        Vertex temp = vertices[s];
         while (temp != null) {
             status[temp.getVertex()] = FRINGE;
             dad[temp.getVertex()] = s;
@@ -36,7 +38,7 @@ public class DijkstraWithHeap {
         while (!heap.maxHeap.isEmpty()) {
             Vertex maxFringe = heap.popMax();
             status[maxFringe.getVertex()] = INTREE;
-            Vertex node = graph[maxFringe.getVertex()];
+            Vertex node = vertices[maxFringe.getVertex()];
             while (node != null) {
                 if (status[node.getVertex()] == UNSEEN) {
                     status[node.getVertex()] = FRINGE;
@@ -60,11 +62,12 @@ public class DijkstraWithHeap {
 
         // get max bw and path from dest to src
         System.out.println("Max bandwidth with heap using Dijkstra is: " + bw[target]);
-        System.out.print("s-target path: ");
-        while (target != s) {
-            System.out.print(target + " <-- ");
-            target = dad[target];
-        }
-        System.out.println(target);
+//        System.out.print("s-target path: ");
+//        while (target != s) {
+//            System.out.print(target + " <-- ");
+//            target = dad[target];
+//        }
+//        System.out.println(target);
+        return bw[target];
     }
 }

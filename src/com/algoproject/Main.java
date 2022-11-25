@@ -3,8 +3,11 @@ package com.algoproject;
 import com.algoproject.algorithms.DijkstraWithHeap;
 import com.algoproject.algorithms.DijkstraWithoutHeap;
 import com.algoproject.algorithms.Kruskal;
+import com.algoproject.model.Graph;
 import com.algoproject.model.Vertex;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 import static com.algoproject.graph.GraphGeneration.completeGraph;
@@ -17,40 +20,83 @@ public class Main {
     public static int weightLimit = 20000; // wts for edges
     public static void main(String[] args) {
 
+        int counter = 0;
 
-        for (int i=0; i<5; i++){
-            int s = random.nextInt(n);
-            int t = s;
-            while (s == t)
-                t = random.nextInt(n);
+        for (int i=0; i<5; i++) {
 
             System.out.println("============Operation for graph 1=============");
-            Vertex[] graph1 = new Vertex[n];
-            // Connect each node to its next node graph1
+//            Vertex[] graph1 = new Vertex[n];
+            Graph graph1 = new Graph(new Vertex[n], new ArrayList<>(), new HashMap<>());
             generateConnectedGraph(graph1, n, weightLimit);
-            // Now complete other edges so that we get the avg degree = 6
             completeGraph(graph1, n, weightLimit, 5);
-//        testGraph(graph1);
 
-            System.out.println("s: " + s + ";t: " + t);
-            DijkstraWithoutHeap.apply(graph1, s, t, n);
-//        testGraph(graph1);
-            DijkstraWithHeap.apply(graph1, s, t, n);
-            Kruskal.apply(graph1, s, t, n);
+            System.out.println("Testing Graph1 for 5 s-t pairs");
+            for (int j = 0; j<5; j++){
+                int s = random.nextInt(n);
+                int t = s;
+                while (s == t){
+                    t = random.nextInt(n);
+                }
+                System.out.println("s: " + s + ";t: " + t);
+                long start_time = System.nanoTime();
+                int djWithoutBW = DijkstraWithoutHeap.apply(graph1, s, t, n);
+                long end_time = System.nanoTime();
+                long time_req = (end_time-start_time)/1000000;
+                System.out.println("TimeRequires for DijkstraWithoutHeap: "+time_req);
+
+                start_time = System.nanoTime();
+                int djWithBW = DijkstraWithHeap.apply(graph1, s, t, n);
+                end_time = System.nanoTime();
+                time_req = (end_time-start_time)/1000000;
+                System.out.println("TimeRequires for DijkstraWithHeap: "+time_req);
+
+                start_time = System.nanoTime();
+                int kruskalBW = Kruskal.apply(graph1, s, t, n);
+                end_time = System.nanoTime();
+                time_req = (end_time-start_time)/1000000;
+                System.out.println("TimeRequires for Kruskal: "+time_req);
+                if (djWithoutBW!=kruskalBW) counter++;
+
+                System.out.println("============================================");
+            }
 
             System.out.println("============Operation for graph 2===============");
-            // Connect each node to its next node for graph2
-            Vertex[] graph2 = new Vertex[n];
-            // Connect each node to its next node graph1
+//            Vertex[] graph2 = new Vertex[n];
+            Graph graph2 = new Graph(new Vertex[n], new ArrayList<>(), new HashMap<>());
             generateConnectedGraph(graph2, n, weightLimit);
             completeGraph(graph2, n, weightLimit, (int) Math.round(n * 0.165));
 
-//        testGraph(graph2);
-            DijkstraWithoutHeap.apply(graph2, s, t, n);
-//        testGraph(graph2);
-            DijkstraWithHeap.apply(graph2, s, t, n);
+            System.out.println("Testing Graph2 for 5 s-t pairs");
+            for (int j = 0; j<5; j++){
+                int s = random.nextInt(n);
+                int t = s;
+                while (s == t){
+                    t = random.nextInt(n);
+                }
+                System.out.println("s: " + s + ";t: " + t);
 
-            Kruskal.apply(graph2, s, t, n);
+                long start_time = System.nanoTime();
+                int djWithoutBW = DijkstraWithoutHeap.apply(graph2, s, t, n);
+                long end_time = System.nanoTime();
+                long time_req = (end_time-start_time)/1000000;
+                System.out.println("TimeRequires for DijkstraWithoutHeap: "+time_req);
+
+                start_time = System.nanoTime();
+                int djWithBW = DijkstraWithHeap.apply(graph2, s, t, n);
+                end_time = System.nanoTime();
+                time_req = (end_time-start_time)/1000000;
+                System.out.println("TimeRequires for DijkstraWithHeap: "+time_req);
+
+                start_time = System.nanoTime();
+                int kruskalBW = Kruskal.apply(graph2, s, t, n);
+                end_time = System.nanoTime();
+                time_req = (end_time-start_time)/1000000;
+                System.out.println("TimeRequires for Kruskal: "+time_req);
+                if (djWithoutBW!=kruskalBW) counter++;
+                System.out.println("============================================");
+            }
+
+            System.out.println("COUNTER: "+counter);
 
             System.out.println("Ending here");
 
@@ -100,9 +146,8 @@ public class Main {
         System.out.println("start testing");
         // calculate the avg degree in the graph
         int sum = 0;
-        for (int i=0; i<graph.length; i++){
-            sum+=graph[i].getEdgeWeight();
-//            System.out.println(i+ " "+graph[i].getDegree());
+        for (Vertex vertex : graph) {
+            sum += vertex.getEdgeWeight();
         }
         System.out.println("Avg edge wt of graph: "+sum);
         // Printing the adj list of 0th vertex in graph

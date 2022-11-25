@@ -1,104 +1,76 @@
 package com.algoproject.algorithms;
 
+import com.algoproject.graph.GraphGeneration;
 import com.algoproject.model.Edge;
+import com.algoproject.model.Graph;
 import com.algoproject.model.UnionFind;
 import com.algoproject.model.Vertex;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Kruskal {
-    public static void apply(Vertex[] graph, int source, int target, int n){
-        int[] dadMaxSpan = new int[n];
+    public static int apply(Graph graph, int source, int target, int n) {
+        int[] dad = new int[n];
         UnionFind unionFind = new UnionFind(n);
 
-        List<Edge> edgeList = getEdgesGraph(graph);
+        List<Edge> edgeList = graph.getEdges();
         EdgeHeap edgeHeap = new EdgeHeap(edgeList);
-
-//		Collections.sort(edgeList, (e1, e2) -> (e2.edgeWt - e1.edgeWt));
 
         Vertex[] maxSpanningTree = new Vertex[n];
 
         while (!edgeHeap.maxHeap.isEmpty()) {
             Edge edge = edgeHeap.popMax();
-            int v1 = edge.getVertex1();
-            int v2 = edge.getVertex2();
+            int vertex1 = edge.getVertex1();
+            int vertex2 = edge.getVertex2();
 
-            int r1 = unionFind.find(v1);
-            int r2 = unionFind.find(v2);
+            int parent1 = unionFind.find(vertex1);
+            int parent2 = unionFind.find(vertex2);
 
-            if (r1 != r2) {
-                unionFind.union(r1, r2);
+            if (parent1 != parent2) {
+                unionFind.union(parent1, parent2);
 
-                if (maxSpanningTree[v1] == null) {
-                    maxSpanningTree[v1] = new Vertex((v2) % n, edge.getEdgeWeight(), 1, null);
+                if (maxSpanningTree[vertex1] == null) {
+                    maxSpanningTree[vertex1] = new Vertex(vertex2, edge.getEdgeWeight(), 1, null);
                 } else {
-                    maxSpanningTree[v1] = new Vertex((v2) % n, edge.getEdgeWeight(), maxSpanningTree[v1].getDegree() + 1,
-                            maxSpanningTree[v1]);
+                    maxSpanningTree[vertex1] = new Vertex(vertex2, edge.getEdgeWeight(),
+                            maxSpanningTree[vertex1].getDegree() + 1,
+                            maxSpanningTree[vertex1]);
                 }
 
-                if (maxSpanningTree[v2] == null) {
-                    maxSpanningTree[v2] = new Vertex((v1) % n, edge.getEdgeWeight(), 1, null);
+                if (maxSpanningTree[vertex2] == null) {
+                    maxSpanningTree[vertex2] = new Vertex(vertex1, edge.getEdgeWeight(), 1, null);
                 } else {
-                    maxSpanningTree[v2] = new Vertex((v1) % n, edge.getEdgeWeight(), maxSpanningTree[v2].getDegree() + 1,
-                            maxSpanningTree[v2]);
+                    maxSpanningTree[vertex2] = new Vertex(vertex1, edge.getEdgeWeight(),
+                            maxSpanningTree[vertex2].getDegree() + 1, maxSpanningTree[vertex2]);
                 }
             }
         }
 
         boolean[] isVisited = new boolean[n];
 
-        dfs(maxSpanningTree, source, isVisited, dadMaxSpan);
+        dfs(maxSpanningTree, source, isVisited, dad);
         int maxBw = Integer.MAX_VALUE;
-        System.out.print("s-t path: ");
-        while (dadMaxSpan[target] != source) {
-            maxBw = Math.min(getEdgeWeight(target, dadMaxSpan[target], graph), maxBw);
+//        System.out.print("s-t path: ");
+        while (dad[target] != source) {
+            String key = GraphGeneration.getEdge(target, dad[target]);
+            maxBw = Math.min(graph.getEdgeMap().getOrDefault(key, Integer.MAX_VALUE), maxBw);
 //            System.out.print(target + " <-- ");
-            target = dadMaxSpan[target];
+            target = dad[target];
         }
-        System.out.println(target);
+//        System.out.println(target);
         System.out.println("The max bandwidth of graph with Kruskal is: " + maxBw);
+        return maxBw;
     }
 
-    public static List<Edge> getEdgesGraph(Vertex[] graph) {
-        int n = graph.length;
-        List<Edge> edgeList = new ArrayList<>();
-        for (int i = 0; i < n; i++) {
-            Vertex vw = graph[i];
-            while (vw != null) {
-                int v = i;
-                int w = vw.getVertex();
-                int e = vw.getEdgeWeight();
-                edgeList.add(new Edge(v, w, e));
-                vw = vw.getNext();
-            }
-        }
-        return edgeList;
-    }
-
-    public static int getEdgeWeight(int v1, int v2, Vertex[] graph) {
-        Vertex vw = graph[v1];
-        while (vw != null) {
-            if (vw.getVertex() == v2) {
-//				System.out.println(v1 + "-" + vw.vertex + "<->" + vw.edgeWt);
-                return vw.getEdgeWeight();
-            }
-            vw = vw.getNext();
-        }
-        return Integer.MAX_VALUE;
-    }
-
-    public static void dfs(Vertex[] graph, int v, boolean[] visited, int[] dadMaxSpan) {
+    public static void dfs(Vertex[] graph, int v, boolean[] visited, int[] dad) {
         visited[v] = true;
         Vertex vw = graph[v];
         while (vw != null) {
             if (!visited[vw.getVertex()]) {
-                dadMaxSpan[vw.getVertex()] = v;
-                dfs(graph, vw.getVertex(), visited, dadMaxSpan);
+                dad[vw.getVertex()] = v;
+                dfs(graph, vw.getVertex(), visited, dad);
             }
             vw = vw.getNext();
         }
-//		System.out.print(v + "-->");
-//		visited[v] = true;
     }
 }

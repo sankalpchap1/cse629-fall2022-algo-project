@@ -1,5 +1,6 @@
 package com.algoproject.algorithms;
 
+import com.algoproject.model.Graph;
 import com.algoproject.model.Status;
 import com.algoproject.model.Vertex;
 import jdk.jfr.Description;
@@ -12,17 +13,18 @@ import static com.algoproject.model.Status.*;
 
 @Description("Data Structure for implementing Max Heap")
 public class DijkstraWithoutHeap {
-    public static void apply(Vertex[] graph, int source, int target, int n){
+    public static int apply(Graph graph, int source, int target, int n) {
         Status[] status = new Status[n];
         Arrays.fill(status, UNSEEN);
         int[] bw = new int[n];
         int[] dad = new int[n];
+        Vertex[] vertices = graph.getVertices();
         List<Vertex> fringes = new ArrayList<>();
         status[source] = INTREE;
         bw[source] = Integer.MAX_VALUE;
         dad[source] = -1;
         // add nodes from source's adj list to the fringes
-        Vertex temp = graph[source];
+        Vertex temp = vertices[source];
         while (temp != null) {
             status[temp.getVertex()] = FRINGE;
             dad[temp.getVertex()] = source;
@@ -33,10 +35,10 @@ public class DijkstraWithoutHeap {
         }
 
         // add nodes for unseen and update status, dad and bw for unseen and fringe
-        while (!fringes.isEmpty()){
+        while (!fringes.isEmpty()) {
             Vertex maxFringe = getMaxFringe(fringes);
             status[maxFringe.getVertex()] = INTREE;
-            Vertex node = graph[maxFringe.getVertex()];
+            Vertex node = vertices[maxFringe.getVertex()];
             while (node != null) {
                 if (status[node.getVertex()] == UNSEEN) {
                     status[node.getVertex()] = FRINGE;
@@ -57,12 +59,13 @@ public class DijkstraWithoutHeap {
         }
         // get max bw and path from t to s
         System.out.println("Max bandwidth without heap using Dijkstra is: " + bw[target]);
-        System.out.print("s-t path: ");
-        while (target != source) {
-            System.out.print(target + " <-- ");
-            target = dad[target];
-        }
-        System.out.println(target);
+//        System.out.print("s-t path: ");
+//        while (target != source) {
+//            System.out.print(target + " <-- ");
+//            target = dad[target];
+//        }
+//        System.out.println(target);
+        return bw[target];
     }
 
     //	Get the Max Fringe from a list of Fringes
@@ -75,7 +78,7 @@ public class DijkstraWithoutHeap {
 
         int id = -1;
         for (int i = 0; i < fringes.size(); i++) {
-            if (fringes.get(i).getEdgeWeight() == maxBW){
+            if (fringes.get(i).getEdgeWeight() == maxBW) {
                 id = i;
                 maxFringe = fringes.get(i);
                 break;

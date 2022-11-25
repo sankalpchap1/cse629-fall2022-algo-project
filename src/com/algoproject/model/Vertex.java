@@ -5,7 +5,6 @@ public class Vertex {
     private int edgeWeight;
     private int degree;
     private Vertex next;
-//    private int bw;
 
     public Vertex(int vertex, int edgeWeight, int degree, Vertex next) {
         this.vertex = vertex;
@@ -17,31 +16,32 @@ public class Vertex {
     public int getDegree() {
         return degree;
     }
+
     public void setDegree(int degree) {
         this.degree = degree;
     }
+
     public int getVertex() {
         return vertex;
     }
+
     public void setVertex(int vertex) {
         this.vertex = vertex;
     }
+
     public int getEdgeWeight() {
         return edgeWeight;
     }
+
     public void setEdgeWeight(int edgeWt) {
         this.edgeWeight = edgeWt;
     }
+
     public Vertex getNext() {
         return next;
     }
+
     public void setNext(Vertex next) {
         this.next = next;
     }
-//    public int getBw() {
-//        return bw;
-//    }
-//    public void setBw(int bw) {
-//        this.bw = bw;
-//    }
 }
