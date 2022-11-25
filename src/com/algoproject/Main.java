@@ -55,7 +55,10 @@ public class Main {
                 end_time = System.nanoTime();
                 time_req = (end_time-start_time)/1000000;
                 System.out.println("TimeRequires for Kruskal: "+time_req);
-                if (djWithoutBW!=kruskalBW) counter++;
+                if (djWithoutBW!=kruskalBW) {
+                    counter++;
+                    System.out.println("COUNTER::"+counter);
+                }
 
                 System.out.println("============================================");
             }
@@ -92,11 +95,14 @@ public class Main {
                 end_time = System.nanoTime();
                 time_req = (end_time-start_time)/1000000;
                 System.out.println("TimeRequires for Kruskal: "+time_req);
-                if (djWithoutBW!=kruskalBW) counter++;
+                if (djWithoutBW!=kruskalBW) {
+                    counter++;
+                    System.out.println("COUNTER::"+counter);
+                }
                 System.out.println("============================================");
             }
 
-            System.out.println("COUNTER: "+counter);
+            System.out.println("FINAL COUNTER: "+counter);
 
             System.out.println("Ending here");
 
