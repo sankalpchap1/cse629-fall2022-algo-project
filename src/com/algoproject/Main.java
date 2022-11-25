@@ -57,7 +57,7 @@ public class Main {
                 System.out.println("TimeRequires for Kruskal: "+time_req);
                 if (djWithoutBW!=djWithBW) {
                     counter++;
-                    System.out.println("COUNTER::"+counter);
+                    System.out.println("graph 1 COUNTER::"+counter);
                 }
 
                 System.out.println("============================================");
@@ -97,7 +97,7 @@ public class Main {
                 System.out.println("TimeRequires for Kruskal: "+time_req);
                 if (djWithoutBW!=djWithBW) {
                     counter++;
-                    System.out.println("COUNTER::"+counter);
+                    System.out.println("graph 2 COUNTER::"+counter);
                 }
                 System.out.println("============================================");
             }

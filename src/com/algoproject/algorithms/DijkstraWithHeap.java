@@ -1,6 +1,6 @@
 package com.algoproject.algorithms;
 
-import com.algoproject.model.Edge;
+import com.algoproject.heap.VertexHeap;
 import com.algoproject.model.Graph;
 import com.algoproject.model.Status;
 import com.algoproject.model.Vertex;
@@ -22,7 +22,7 @@ public class DijkstraWithHeap {
 
         status[s] = INTREE;
 
-        HeapV3GFG heap = new HeapV3GFG(graph.getVertices().length);
+        VertexHeap.init(graph.getVertices().length);
         // add nodes from src
         Vertex temp = vertices[s];
         while (temp != null) {
@@ -31,7 +31,7 @@ public class DijkstraWithHeap {
             bw[temp.getVertex()] = temp.getEdgeWeight();
 //            temp.setBw(temp.getEdgeWeight());
             fringes.add(temp);
-            HeapV3GFG.insert(temp.getVertex(),bw[temp.getVertex()]);
+            VertexHeap.insert(temp.getVertex(),bw[temp.getVertex()]);
             temp = temp.getNext();
         }
         for (Vertex vertex: fringes){
@@ -40,9 +40,9 @@ public class DijkstraWithHeap {
 
         // add nodes for unseen in heap and update status, dad and bw for unseen and
         // fringe
-        while (HeapV3GFG.getSize()!=0) {
+        while (VertexHeap.getSize()!=0) {
 //            Vertex maxFringe = HeapV2;
-            int maxIndex = HeapV3GFG.extractMax(0);
+            int maxIndex = VertexHeap.extractMax(0);
             status[maxIndex] = INTREE;
 //            HeapV2.delete(1);
             Vertex node = vertices[maxIndex];
@@ -53,13 +53,13 @@ public class DijkstraWithHeap {
                     bw[node.getVertex()] = Math.min(bw[maxIndex], node.getEdgeWeight());
 //                    node.setBw(bw[node.getVertex()]);
 //                    heap.insert(node);
-                    HeapV3GFG.insert(node.getVertex(), bw[node.getVertex()]);
+                    VertexHeap.insert(node.getVertex(), bw[node.getVertex()]);
                 } else if (status[node.getVertex()] == FRINGE
                         && bw[node.getVertex()] < Math.min(bw[maxIndex], node.getEdgeWeight())) {
-                    HeapV3GFG.delete(node.getVertex());
+                    VertexHeap.delete(node.getVertex());
                     dad[node.getVertex()] = maxIndex;
                     bw[node.getVertex()] = Math.min(bw[maxIndex], node.getEdgeWeight());
-                    HeapV3GFG.insert(node.getVertex(), bw[node.getVertex()]);
+                    VertexHeap.insert(node.getVertex(), bw[node.getVertex()]);
                 }
                 node = node.getNext();
             }

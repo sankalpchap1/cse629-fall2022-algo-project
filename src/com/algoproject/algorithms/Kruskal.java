@@ -1,6 +1,7 @@
 package com.algoproject.algorithms;
 
 import com.algoproject.graph.GraphGeneration;
+import com.algoproject.heap.EdgeHeap;
 import com.algoproject.model.Edge;
 import com.algoproject.model.Graph;
 import com.algoproject.model.UnionFind;
@@ -18,7 +19,7 @@ public class Kruskal {
 
         Vertex[] maxSpanningTree = new Vertex[n];
 
-        while (!edgeHeap.maxHeap.isEmpty()) {
+        while (!edgeHeap.getMaxHeap().isEmpty()) {
             Edge edge = edgeHeap.popMax();
             int vertex1 = edge.getVertex1();
             int vertex2 = edge.getVertex2();

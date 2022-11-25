@@ -1,16 +1,10 @@
-package com.algoproject.algorithms;
-
-import com.algoproject.model.Vertex;
+package com.algoproject.heap;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class HeapV3GFG {
+public class VertexHeap {
     private static int[] Heap;
-
-    public static int getVertexNumberFromIndex(int index) {
-        return vertices[index];
-    }
 
     private static int[] vertices;
 
@@ -22,46 +16,41 @@ public class HeapV3GFG {
     }
 
     private static int size;
-    private int maxsize;
-    public HeapV3GFG(int maxsize)
-    {
-        // This keyword refers to current instance itself
-        this.maxsize = maxsize;
-        this.size = 0;
-        Heap = new int[this.maxsize];
-        vertices = new int[this.maxsize];
+
+    public static void init(int maxsize) {
+        size = 0;
+        Heap = new int[maxsize];
+        vertices = new int[maxsize];
         map = new HashMap<>();
     }
 
     // Method 1
     // Returning position of parent
-    private static int parent(int pos) { return (pos - 1) / 2; }
+    private static int parent(int pos) {
+        return (pos - 1) / 2;
+    }
 
     // Method 2
     // Returning left children
-    private static int leftChild(int pos) { return (2 * pos) + 1; }
+    private static int leftChild(int pos) {
+        return (2 * pos) + 1;
+    }
 
     // Method 3
     // Returning right children
-    private static int rightChild(int pos)
-    {
+    private static int rightChild(int pos) {
         return (2 * pos) + 2;
     }
 
     // Method 4
     // Returning true of given node is leaf
-    private static boolean isLeaf(int pos)
-    {
-        if (pos > (size / 2) && pos <= size) {
-            return true;
-        }
-        return false;
+    private static boolean isLeaf(int pos) {
+        return pos > (size / 2) && pos <= size;
     }
 
     // Method 5
     // Swapping nodes
-    private static void swap(int fpos, int spos)
-    {
+    private static void swap(int fpos, int spos) {
         map.put(vertices[fpos], spos);
         map.put(vertices[spos], fpos);
 
@@ -75,10 +64,7 @@ public class HeapV3GFG {
         Heap[spos] = tmp;
     }
 
-    // Method 6
-    // Recursive function to max heapify given subtree
-    private static void maxHeapify(int pos)
-    {
+    private static void maxHeapify(int pos) {
         if (isLeaf(pos))
             return;
 
@@ -89,23 +75,18 @@ public class HeapV3GFG {
                     > Heap[rightChild(pos)]) {
                 swap(pos, leftChild(pos));
                 maxHeapify(leftChild(pos));
-            }
-            else {
+            } else {
                 swap(pos, rightChild(pos));
                 maxHeapify(rightChild(pos));
             }
         }
     }
 
-    // Method 7
-    // Inserts a new element to max heap
-    public static void insert(int vertex, int element)
-    {
+    public static void insert(int vertex, int element) {
         Heap[size] = element;
         vertices[size] = vertex;
         map.put(vertex, size);
 
-        // Traverse up and fix violated property
         int current = size;
         while (Heap[current] > Heap[parent(current)]) {
             swap(current, parent(current));
@@ -114,8 +95,7 @@ public class HeapV3GFG {
         size++;
     }
 
-    public static int extractMax(int index)
-    {
+    public static int extractMax(int index) {
         int popped = vertices[index];
         size--;
         Heap[index] = Heap[size];
@@ -124,41 +104,37 @@ public class HeapV3GFG {
 
         maxHeapify(index);
 
-        Heap[size]=0;
-        vertices[size]=0;
+        Heap[size] = 0;
+        vertices[size] = 0;
         map.remove(popped);
 
         return popped;
     }
 
-    public static void main(String[] arg)
-    {
-        // Display message for better readability
+    public static void main(String[] arg) {
         System.out.println("The Max Heap is ");
 
-        HeapV3GFG maxHeap = new HeapV3GFG(15);
+        VertexHeap.init(15);
 
         // Inserting nodes
         // Custom inputs
-        maxHeap.insert(1,5);
-        maxHeap.insert(3,3);
-        maxHeap.insert(5,17);
-        maxHeap.insert(7,10);
-        maxHeap.insert(9,84);
-        maxHeap.insert(4, 19);
-        maxHeap.insert(14,6);
-        maxHeap.insert(8,22);
-        maxHeap.insert(11,9);
-        maxHeap.insert(2,90);
+        insert(1, 5);
+        insert(3, 3);
+        insert(5, 17);
+        insert(7, 10);
+        insert(9, 84);
+        insert(4, 19);
+        insert(14, 6);
+        insert(8, 22);
+        insert(11, 9);
+        insert(2, 90);
 
-        // Calling maxHeap() as defined above
-//        maxHeap.print();
-        System.out.println("test");
+        System.out.println("testing Vertex Heap");
         // Print and display the maximum value in heap
 //        int maxIndex = maxHeap.extractMax(0);
         delete(8);
         System.out.println("The max val is "
-                + maxHeap.extractMax(0));
+                + extractMax(0));
     }
 
     public static void delete(int vertex) {
