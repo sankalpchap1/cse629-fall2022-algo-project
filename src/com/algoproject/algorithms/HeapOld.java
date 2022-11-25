@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 @Description("Data Structure for implementing Max Heap")
-public class Heap {
+public class HeapOld {
     List<Vertex> maxHeap;
     Map<Integer, Integer> pos;
 
@@ -20,7 +20,7 @@ public class Heap {
 //	Could not get across some edge cases to use H[], D[] and P[] so a different approach to heap is used.
 
     //    Constructor to add list of fringes
-    public Heap(List<Vertex> fringes) {
+    public HeapOld(List<Vertex> fringes) {
         maxHeap = new ArrayList<>(fringes.size());
         pos = new HashMap<>(fringes.size());
         for (int i = 0; i < fringes.size(); i++) {
