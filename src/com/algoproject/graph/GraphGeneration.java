@@ -121,13 +121,10 @@ public class GraphGeneration {
         //add edges randomly till each vertex is adjacent to about 20% of other vertices
         for (int x = 0; x < n; x++) {
             while (degrees[x] < minDegree) {
-                int y = 0;
-                while (true) {
+                int y;
+                do {
                     y = random.nextInt(n);
-                    if (x != y && degrees[y] < maxDegree) {
-                        break;
-                    }
-                }
+                } while (x == y || degrees[y] >= maxDegree);
                 Vertex first = graph.getVertices()[x];
                 while (first.getNext() != null && first.getVertex() != y) {
                     first = first.getNext();

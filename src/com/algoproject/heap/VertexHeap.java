@@ -18,13 +18,14 @@ public class VertexHeap {
     // Current size of the heap
     private static int size;
 
+    private static int maxsize;
+
     public static void init(int maxsize) {
+        VertexHeap.maxsize = maxsize;
         size = 0;
         Heap = new int[maxsize];
         vertices = new int[maxsize];
         positionArray = new int[maxsize];
-        Arrays.fill(Heap, -1);
-        Arrays.fill(vertices, -1);
         Arrays.fill(positionArray, -1);
     }
 
@@ -80,6 +81,7 @@ public class VertexHeap {
     }
 
     public static void insert(int vertex, int element) {
+//        ensureCapacity();
         Heap[size] = element;
         vertices[size] = vertex;
         positionArray[vertex] = size;
@@ -92,6 +94,14 @@ public class VertexHeap {
         size++;
     }
 
+    private static void ensureCapacity() {
+        if (size == maxsize) {
+            Heap = Arrays.copyOf(Heap, maxsize * 2);
+            positionArray = Arrays.copyOf(positionArray, maxsize * 2);
+            maxsize = maxsize * 2;
+        }
+    }
+
     public static int extractMax(int index) {
         int popped = vertices[index];
         size--;
@@ -101,8 +111,8 @@ public class VertexHeap {
 
         maxHeapify(index);
 
-        Heap[size] = -1;
-        vertices[size] = -1;
+        Heap[size] = 0;
+        vertices[size] = 0;
         positionArray[popped] = -1;
 
         return popped;

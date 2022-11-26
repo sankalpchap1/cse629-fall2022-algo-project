@@ -24,7 +24,7 @@ public class DijkstraWithHeap {
 
         status[s] = INTREE;
 
-        VertexHeap.init(graph.getVertices().length);
+        VertexHeap.init(n);
         // add nodes from src
         Vertex temp = vertices[s];
         while (temp != null) {

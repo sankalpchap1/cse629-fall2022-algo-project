@@ -2,7 +2,7 @@ package com.algoproject;
 
 import com.algoproject.algorithms.DijkstraWithHeap;
 import com.algoproject.algorithms.DijkstraWithoutHeap;
-import com.algoproject.algorithms.Kruskal;
+import com.algoproject.algorithms.KruskalV2;
 import com.algoproject.model.Graph;
 import com.algoproject.model.Vertex;
 
@@ -26,9 +26,9 @@ public class Main {
 
             System.out.println("============Operation for graph 1=============");
             Graph graph1 = new Graph(new Vertex[n], new ArrayList<>(), new HashMap<>());
-//            generateConnectedGraph(graph1, n, weightLimit);
-//            completeGraph(graph1, n, weightLimit, 5);
-            generate_sparse_graph(graph1, n, weightLimit);
+            generateConnectedGraph(graph1, n, weightLimit);
+            completeGraph(graph1, n, weightLimit, 5);
+//            generate_sparse_graph(graph1, n, weightLimit);
 
             System.out.println("Testing Graph1 for 5 s-t pairs");
             for (int j = 0; j<5; j++){
@@ -51,7 +51,8 @@ public class Main {
                 System.out.println("TimeRequires for DijkstraWithHeap: "+time_req);
 
                 start_time = System.nanoTime();
-                int kruskalBW = Kruskal.apply(graph1, s, t, n);
+//                int kruskalBW = Kruskal.apply(graph1, s, t, n);
+                int kruskalBW = KruskalV2.apply(graph1, s, t, n);
                 end_time = System.nanoTime();
                 time_req = (end_time-start_time)/1000000;
                 System.out.println("TimeRequires for Kruskal: "+time_req);
@@ -69,9 +70,9 @@ public class Main {
 
             System.out.println("============Operation for graph 2===============");
             Graph graph2 = new Graph(new Vertex[n], new ArrayList<>(), new HashMap<>());
-            generate_dense_graph(graph2, n, weightLimit);
-//            generateConnectedGraph(graph2, n, weightLimit);
-//            completeGraph(graph2, n, weightLimit, (int) Math.round(n * 0.165));
+//            generate_dense_graph(graph2, n, weightLimit);
+            generateConnectedGraph(graph2, n, weightLimit);
+            completeGraph(graph2, n, weightLimit, (int) Math.round(n * 0.165));
 
             System.out.println("Testing Graph2 for 5 s-t pairs");
             for (int j = 0; j<5; j++){
@@ -95,7 +96,8 @@ public class Main {
                 System.out.println("TimeRequires for DijkstraWithHeap: "+time_req);
 
                 start_time = System.nanoTime();
-                int kruskalBW = Kruskal.apply(graph2, s, t, n);
+//                int kruskalBW = Kruskal.apply(graph2, s, t, n);
+                int kruskalBW = KruskalV2.apply(graph2, s, t, n);
                 end_time = System.nanoTime();
                 time_req = (end_time-start_time)/1000000;
                 System.out.println("TimeRequires for Kruskal: "+time_req);
