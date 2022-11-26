@@ -1,5 +1,8 @@
 package com.algoproject.model;
 
+import jdk.jfr.Description;
+
+@Description("Data Structure to store the Vertex in graph")
 public class Vertex {
     private int vertex;
     private int edgeWeight;

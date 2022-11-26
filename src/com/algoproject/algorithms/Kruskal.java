@@ -22,7 +22,8 @@ public class Kruskal {
 
         Vertex[] mst = new Vertex[n];// To store the maximum spanning tree
 
-        while (edgeHeap.getSize()>0) {
+        int counter = 0;// Maintaining the edges in MST < n-1
+        while (counter<n-1 && edgeHeap.getSize()>0) {
             Edge edge = edgeHeap.extractMax();
             int vertex1 = edge.getVertex1();
             int vertex2 = edge.getVertex2();
@@ -31,6 +32,7 @@ public class Kruskal {
             int parent2 = unionFind.find(vertex2);
 
             if (parent1 != parent2) {
+                counter++;
                 unionFind.union(parent1, parent2);
 
                 if (mst[vertex1] == null) {

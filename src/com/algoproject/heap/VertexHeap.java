@@ -1,20 +1,21 @@
 package com.algoproject.heap;
 
+import jdk.jfr.Description;
+
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
+@Description("Data Structure to implement max Heap for Vertices using H, P and D array used in Dijkstra's algorithm")
 public class VertexHeap {
-    private static int[] Heap; // To store BW of vertex - D array as per project description
+    // D array as per project description
+    private static int[] Heap; // To store BW of vertex
 
-    private static int[] vertices;// To get the vertex value - H array as per project description
+    // H array as per project description
+    private static int[] vertices;// To get the vertex value
 
-    private static int[] positionArray;
+    // P array as per project description
+    private static int[] positionArray;// To get the index index referenced to heap from Vertex Number
 
-    public static int getSize() {
-        return size;
-    }
-
+    // Current size of the heap
     private static int size;
 
     public static void init(int maxsize) {
@@ -27,35 +28,37 @@ public class VertexHeap {
         Arrays.fill(positionArray, -1);
     }
 
+    public static int getSize() {
+        return size;
+    }
+
     private static int parent(int pos) {
         return (pos - 1) / 2;
     }
 
     private static int leftChild(int pos) {
-        return (2 * pos) + 1;
+        return 1 + (2 * pos);
     }
 
     private static int rightChild(int pos) {
-        return (2 * pos) + 2;
+        return 2 + (2 * pos);
     }
 
     private static boolean isLeaf(int pos) {
-        return pos > (size / 2) && pos <= size;
+        return pos <= size && pos > (size / 2) ;
     }
 
-    // Method 5
-    // Swapping nodes
-    private static void swap(int fpos, int spos) {
-        positionArray[vertices[fpos]] = spos;
-        positionArray[vertices[spos]] = fpos;
+    private static void swap(int pos1, int pos2) {
+        positionArray[vertices[pos1]] = pos2;
+        positionArray[vertices[pos2]] = pos1;
 
-        int tempVertices = vertices[fpos];
-        vertices[fpos] = vertices[spos];
-        vertices[spos] = tempVertices;
+        int tempVertices = vertices[pos1];
+        vertices[pos1] = vertices[pos2];
+        vertices[pos2] = tempVertices;
 
-        int tmp = Heap[fpos];
-        Heap[fpos] = Heap[spos];
-        Heap[spos] = tmp;
+        int tmp = Heap[pos1];
+        Heap[pos1] = Heap[pos2];
+        Heap[pos2] = tmp;
     }
 
     private static void maxHeapify(int pos) {
@@ -80,7 +83,6 @@ public class VertexHeap {
         Heap[size] = element;
         vertices[size] = vertex;
         positionArray[vertex] = size;
-//        map.put(vertex, size);
 
         int current = size;
         while (Heap[current] > Heap[parent(current)]) {
@@ -102,18 +104,15 @@ public class VertexHeap {
         Heap[size] = -1;
         vertices[size] = -1;
         positionArray[popped] = -1;
-//        map.remove(popped);
 
         return popped;
     }
 
     public static void main(String[] arg) {
-        System.out.println("The Max Heap is ");
+        System.out.println("Testing Vertex Heap ");
 
         VertexHeap.init(15);
 
-        // Inserting nodes
-        // Custom inputs
         insert(1, 5);
         insert(3, 3);
         insert(5, 17);
@@ -125,12 +124,8 @@ public class VertexHeap {
         insert(11, 9);
         insert(2, 90);
 
-        System.out.println("testing Vertex Heap");
-        // Print and display the maximum value in heap
-//        int maxIndex = maxHeap.extractMax(0);
         delete(8);
-        System.out.println("The max val is "
-                + extractMax(0));
+        System.out.println("The max val is " + extractMax(0));
     }
 
     public static void delete(int vertex) {

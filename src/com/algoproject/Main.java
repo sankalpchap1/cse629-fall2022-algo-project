@@ -10,8 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
-import static com.algoproject.graph.GraphGeneration.completeGraph;
-import static com.algoproject.graph.GraphGeneration.generateConnectedGraph;
+import static com.algoproject.graph.GraphGeneration.*;
 
 public class Main {
 
@@ -26,10 +25,10 @@ public class Main {
         for (int i=0; i<5; i++) {
 
             System.out.println("============Operation for graph 1=============");
-//            Vertex[] graph1 = new Vertex[n];
             Graph graph1 = new Graph(new Vertex[n], new ArrayList<>(), new HashMap<>());
-            generateConnectedGraph(graph1, n, weightLimit);
+//            generateConnectedGraph(graph1, n, weightLimit);
 //            completeGraph(graph1, n, weightLimit, 5);
+            generate_sparse_graph(graph1, n, weightLimit);
 
             System.out.println("Testing Graph1 for 5 s-t pairs");
             for (int j = 0; j<5; j++){
@@ -69,10 +68,10 @@ public class Main {
             }
 
             System.out.println("============Operation for graph 2===============");
-//            Vertex[] graph2 = new Vertex[n];
             Graph graph2 = new Graph(new Vertex[n], new ArrayList<>(), new HashMap<>());
-            generateConnectedGraph(graph2, n, weightLimit);
-            completeGraph(graph2, n, weightLimit, (int) Math.round(n * 0.165));
+            generate_dense_graph(graph2, n, weightLimit);
+//            generateConnectedGraph(graph2, n, weightLimit);
+//            completeGraph(graph2, n, weightLimit, (int) Math.round(n * 0.165));
 
             System.out.println("Testing Graph2 for 5 s-t pairs");
             for (int j = 0; j<5; j++){

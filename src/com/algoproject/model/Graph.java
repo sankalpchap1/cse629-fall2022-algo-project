@@ -1,16 +1,22 @@
 package com.algoproject.model;
 
+import jdk.jfr.Description;
+
 import java.util.List;
 import java.util.Map;
 
+@Description("Data Structure to store the graph")
 public class Graph {
-    Vertex[] vertices;
-    List<Edge> edges;
-    Map<String, Integer> edgeMap;
 
-    public Graph(Vertex[] vertices,
-                 List<Edge> edges,
-                 Map<String, Integer> edgeMap) {
+    private final Vertex[] vertices;
+
+    private final List<Edge> edges;
+
+    private final Map<String, Integer> edgeMap;
+
+    public Graph(final Vertex[] vertices,
+                 final List<Edge> edges,
+                 final Map<String, Integer> edgeMap) {
         this.vertices = vertices;
         this.edges = edges;
         this.edgeMap = edgeMap;
@@ -20,23 +26,12 @@ public class Graph {
         return vertices;
     }
 
-    public void setVertices(Vertex[] vertices) {
-        this.vertices = vertices;
-    }
-
     public List<Edge> getEdges() {
         return edges;
-    }
-
-    public void setEdges(List<Edge> edges) {
-        this.edges = edges;
     }
 
     public Map<String, Integer> getEdgeMap() {
         return edgeMap;
     }
 
-    public void setEdgeMap(Map<String, Integer> edgeMap) {
-        this.edgeMap = edgeMap;
-    }
 }

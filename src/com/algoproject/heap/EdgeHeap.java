@@ -2,12 +2,14 @@ package com.algoproject.heap;
 
 
 import com.algoproject.model.Edge;
+import jdk.jfr.Description;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+@Description("Data Structure to implement max Heap for Edges used in kruskal's algorithm")
 public class EdgeHeap {
     Edge[] Heap;
     private int size;
@@ -29,10 +31,6 @@ public class EdgeHeap {
 
     private int rightChildIndex(int pos) {
         return (2 * pos) + 2;
-    }
-
-    private boolean isLeaf(int pos) {
-        return pos > (size / 2) && pos <= size;
     }
 
     public int getSize() {

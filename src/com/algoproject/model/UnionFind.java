@@ -1,14 +1,15 @@
 package com.algoproject.model;
 
+import jdk.jfr.Description;
+
 import java.util.Arrays;
 
-//Union Find
+@Description("Data Structure to implement Union Find used for Kruskal's Algorithm")
 public class UnionFind {
 
-    private final int[] rank; // Stores the rank of the nodes
-    private final int[] dad; //Stores the parent of nodes in Union Find set
+    private final int[] rank;
+    private final int[] dad;
 
-    //	Initialize Union Find set Constructor
     public UnionFind(int n) {
         rank = new int[n];
         dad = new int[n];
@@ -20,7 +21,6 @@ public class UnionFind {
         }
     }
 
-    //	Finds the group vertex belongs to
     public int find(int x) {
         if (dad[x] != x) {
             dad[x] = find(dad[x]);
@@ -29,19 +29,10 @@ public class UnionFind {
     }
 
     public void union(int p1, int p2) {
-//        int p1 = find(v1);
-//        int p2 = find(v2);
         if (rank[p1] < rank[p2]) {
-            // set1 is less than set2
-            // make p2 the parent(root) of p1
             dad[p1] = p2;
         } else {
-            // set1 is larger than set2
-            // make p1 the parent(root) of p2
             dad[p2] = p1;
-
-            // set1 is as the same rank as set2
-            // increase the rank of the root p1
             if (rank[p1] == rank[p2]) {
                 rank[p1]++;
             }
