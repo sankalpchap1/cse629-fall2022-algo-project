@@ -1,15 +1,15 @@
 package com.algoproject.heap;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 public class VertexHeap {
-    private static int[] Heap;
+    private static int[] Heap; // To store BW of vertex - D array as per project description
 
-    private static int[] vertices;
+    private static int[] vertices;// To get the vertex value - H array as per project description
 
-    // Key-> vertex Value and Value-> index of this vertex in the vertices array
-    private static Map<Integer, Integer> map;
+    private static int[] positionArray;
 
     public static int getSize() {
         return size;
@@ -21,29 +21,24 @@ public class VertexHeap {
         size = 0;
         Heap = new int[maxsize];
         vertices = new int[maxsize];
-        map = new HashMap<>();
+        positionArray = new int[maxsize];
+        Arrays.fill(Heap, -1);
+        Arrays.fill(vertices, -1);
+        Arrays.fill(positionArray, -1);
     }
 
-    // Method 1
-    // Returning position of parent
     private static int parent(int pos) {
         return (pos - 1) / 2;
     }
 
-    // Method 2
-    // Returning left children
     private static int leftChild(int pos) {
         return (2 * pos) + 1;
     }
 
-    // Method 3
-    // Returning right children
     private static int rightChild(int pos) {
         return (2 * pos) + 2;
     }
 
-    // Method 4
-    // Returning true of given node is leaf
     private static boolean isLeaf(int pos) {
         return pos > (size / 2) && pos <= size;
     }
@@ -51,15 +46,14 @@ public class VertexHeap {
     // Method 5
     // Swapping nodes
     private static void swap(int fpos, int spos) {
-        map.put(vertices[fpos], spos);
-        map.put(vertices[spos], fpos);
+        positionArray[vertices[fpos]] = spos;
+        positionArray[vertices[spos]] = fpos;
 
         int tempVertices = vertices[fpos];
         vertices[fpos] = vertices[spos];
         vertices[spos] = tempVertices;
 
-        int tmp;
-        tmp = Heap[fpos];
+        int tmp = Heap[fpos];
         Heap[fpos] = Heap[spos];
         Heap[spos] = tmp;
     }
@@ -85,7 +79,8 @@ public class VertexHeap {
     public static void insert(int vertex, int element) {
         Heap[size] = element;
         vertices[size] = vertex;
-        map.put(vertex, size);
+        positionArray[vertex] = size;
+//        map.put(vertex, size);
 
         int current = size;
         while (Heap[current] > Heap[parent(current)]) {
@@ -100,13 +95,14 @@ public class VertexHeap {
         size--;
         Heap[index] = Heap[size];
         vertices[index] = vertices[size];
-        map.put(vertices[size], map.get(popped));
+        positionArray[vertices[size]] = positionArray[popped];
 
         maxHeapify(index);
 
-        Heap[size] = 0;
-        vertices[size] = 0;
-        map.remove(popped);
+        Heap[size] = -1;
+        vertices[size] = -1;
+        positionArray[popped] = -1;
+//        map.remove(popped);
 
         return popped;
     }
@@ -138,8 +134,7 @@ public class VertexHeap {
     }
 
     public static void delete(int vertex) {
-        int pos = map.get(vertex);
+        int pos = positionArray[vertex];
         extractMax(pos);
-
     }
 }

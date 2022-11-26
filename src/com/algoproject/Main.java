@@ -21,6 +21,7 @@ public class Main {
     public static void main(String[] args) {
 
         int counter = 0;
+        int krusCounter = 0;
 
         for (int i=0; i<5; i++) {
 
@@ -28,7 +29,7 @@ public class Main {
 //            Vertex[] graph1 = new Vertex[n];
             Graph graph1 = new Graph(new Vertex[n], new ArrayList<>(), new HashMap<>());
             generateConnectedGraph(graph1, n, weightLimit);
-            completeGraph(graph1, n, weightLimit, 5);
+//            completeGraph(graph1, n, weightLimit, 5);
 
             System.out.println("Testing Graph1 for 5 s-t pairs");
             for (int j = 0; j<5; j++){
@@ -58,6 +59,10 @@ public class Main {
                 if (djWithoutBW!=djWithBW) {
                     counter++;
                     System.out.println("graph 1 COUNTER::"+counter);
+                }
+                if (djWithoutBW!=kruskalBW){
+                    krusCounter++;
+                    System.out.println("krusCnt::"+krusCounter);
                 }
 
                 System.out.println("============================================");
@@ -99,6 +104,12 @@ public class Main {
                     counter++;
                     System.out.println("graph 2 COUNTER::"+counter);
                 }
+
+                if (djWithoutBW!=kruskalBW){
+                    krusCounter++;
+                    System.out.println("krusCnt::"+krusCounter);
+                }
+
                 System.out.println("============================================");
             }
 
@@ -125,6 +136,7 @@ public class Main {
 //        System.out.println("Ending here");
         }
         System.out.println("FINAL COUNTER: "+counter);
+        System.out.println("FINAL Kruskal COUNTER: "+krusCounter);
     }
 
     private static void printAdjMatrix(Vertex[] graph, int n){
@@ -147,14 +159,9 @@ public class Main {
 
     }
 
-    private static void testGraph(Vertex[] graph){
+    private static void testGraph(Graph graph){
         System.out.println("start testing");
         // calculate the avg degree in the graph
-        int sum = 0;
-        for (Vertex vertex : graph) {
-            sum += vertex.getEdgeWeight();
-        }
-        System.out.println("Avg edge wt of graph: "+sum);
         // Printing the adj list of 0th vertex in graph
 //        Vertex temp = graph[0];
 //        while (temp!=null){

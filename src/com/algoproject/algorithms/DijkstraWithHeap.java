@@ -4,6 +4,7 @@ import com.algoproject.heap.VertexHeap;
 import com.algoproject.model.Graph;
 import com.algoproject.model.Status;
 import com.algoproject.model.Vertex;
+import jdk.jfr.Description;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,6 +12,7 @@ import java.util.List;
 
 import static com.algoproject.model.Status.*;
 
+@Description("Implementation of Dijkstra's Algorithms with using MaxHeap - VertexHeap")
 public class DijkstraWithHeap {
     public static int apply(Graph graph, int s, int target, int n) {
         Status[] status = new Status[n];
@@ -34,25 +36,18 @@ public class DijkstraWithHeap {
             VertexHeap.insert(temp.getVertex(),bw[temp.getVertex()]);
             temp = temp.getNext();
         }
-        for (Vertex vertex: fringes){
-
-        }
 
         // add nodes for unseen in heap and update status, dad and bw for unseen and
         // fringe
         while (VertexHeap.getSize()!=0) {
-//            Vertex maxFringe = HeapV2;
             int maxIndex = VertexHeap.extractMax(0);
             status[maxIndex] = INTREE;
-//            HeapV2.delete(1);
             Vertex node = vertices[maxIndex];
             while (node != null) {
                 if (status[node.getVertex()] == UNSEEN) {
                     status[node.getVertex()] = FRINGE;
                     dad[node.getVertex()] = maxIndex;
                     bw[node.getVertex()] = Math.min(bw[maxIndex], node.getEdgeWeight());
-//                    node.setBw(bw[node.getVertex()]);
-//                    heap.insert(node);
                     VertexHeap.insert(node.getVertex(), bw[node.getVertex()]);
                 } else if (status[node.getVertex()] == FRINGE
                         && bw[node.getVertex()] < Math.min(bw[maxIndex], node.getEdgeWeight())) {

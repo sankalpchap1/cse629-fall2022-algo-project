@@ -28,9 +28,9 @@ public class UnionFind {
         return dad[x];
     }
 
-    public void union(int v1, int v2) {
-        int p1 = find(v1);
-        int p2 = find(v2);
+    public void union(int p1, int p2) {
+//        int p1 = find(v1);
+//        int p2 = find(v2);
         if (rank[p1] < rank[p2]) {
             // set1 is less than set2
             // make p2 the parent(root) of p1

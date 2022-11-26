@@ -11,7 +11,7 @@ import java.util.List;
 
 import static com.algoproject.model.Status.*;
 
-@Description("Data Structure for implementing Max Heap")
+@Description("Implementation of Dijkstra's Algorithms without using MaxHeap")
 public class DijkstraWithoutHeap {
     public static int apply(Graph graph, int source, int target, int n) {
         Status[] status = new Status[n];
@@ -23,18 +23,17 @@ public class DijkstraWithoutHeap {
         status[source] = INTREE;
         bw[source] = Integer.MAX_VALUE;
         dad[source] = -1;
+
         // add nodes from source's adj list to the fringes
         Vertex temp = vertices[source];
         while (temp != null) {
             status[temp.getVertex()] = FRINGE;
             dad[temp.getVertex()] = source;
             bw[temp.getVertex()] = temp.getEdgeWeight();
-//            temp.setBw(temp.getEdgeWeight());// set bw of source immediate vertex to edgeWt
             fringes.add(temp);
             temp = temp.getNext();
         }
 
-        // add nodes for unseen and update status, dad and bw for unseen and fringe
         while (!fringes.isEmpty()) {
             Vertex maxFringe = getMaxFringe(fringes);
             status[maxFringe.getVertex()] = INTREE;
@@ -44,14 +43,11 @@ public class DijkstraWithoutHeap {
                     status[node.getVertex()] = FRINGE;
                     dad[node.getVertex()] = maxFringe.getVertex();
                     bw[node.getVertex()] = Math.min(bw[maxFringe.getVertex()], node.getEdgeWeight());
-//                    node.setBw(bw[node.getVertex()]);
                     fringes.add(new Vertex(node.getVertex(), bw[node.getVertex()], 0, null));
-//                    fringes.add(node);
                 } else if (status[node.getVertex()] == FRINGE
                         && bw[node.getVertex()] < Math.min(bw[maxFringe.getVertex()], node.getEdgeWeight())) {
                     dad[node.getVertex()] = maxFringe.getVertex();
                     bw[node.getVertex()] = Math.min(bw[maxFringe.getVertex()], node.getEdgeWeight());
-//                    node.setBw(bw[node.getVertex()]);
                     updateFringe(fringes, node.getVertex(), bw[node.getVertex()]);
                 }
                 node = node.getNext();
