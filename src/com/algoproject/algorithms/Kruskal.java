@@ -6,13 +6,13 @@ import com.algoproject.model.Vertex;
 
 import java.util.*;
 
-public class KruskalV2 {
+public class Kruskal {
     static int maxBandwidth = 0;
     static List<Integer> maxBwPath = new ArrayList<>();
 
     public static int apply(Graph graph, int src, int dest, int noOfNodes) {
         Map<Integer, List<Vertex>> maxST = new HashMap<>();
-        MUF omuf = new MUF(noOfNodes);
+        UnionFind omuf = new UnionFind(noOfNodes);
         maxST.clear();
         maxST = new HashMap<>(noOfNodes);
 

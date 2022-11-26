@@ -2,7 +2,7 @@ package com.algoproject;
 
 import com.algoproject.algorithms.DijkstraWithHeap;
 import com.algoproject.algorithms.DijkstraWithoutHeap;
-import com.algoproject.algorithms.KruskalV2;
+import com.algoproject.algorithms.Kruskal;
 import com.algoproject.model.Graph;
 import com.algoproject.model.Vertex;
 
@@ -52,7 +52,7 @@ public class Main {
 
                 start_time = System.nanoTime();
 //                int kruskalBW = Kruskal.apply(graph1, s, t, n);
-                int kruskalBW = KruskalV2.apply(graph1, s, t, n);
+                int kruskalBW = Kruskal.apply(graph1, s, t, n);
                 end_time = System.nanoTime();
                 time_req = (end_time-start_time)/1000000;
                 System.out.println("TimeRequires for Kruskal: "+time_req);
@@ -97,7 +97,7 @@ public class Main {
 
                 start_time = System.nanoTime();
 //                int kruskalBW = Kruskal.apply(graph2, s, t, n);
-                int kruskalBW = KruskalV2.apply(graph2, s, t, n);
+                int kruskalBW = Kruskal.apply(graph2, s, t, n);
                 end_time = System.nanoTime();
                 time_req = (end_time-start_time)/1000000;
                 System.out.println("TimeRequires for Kruskal: "+time_req);

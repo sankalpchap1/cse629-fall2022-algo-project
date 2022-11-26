@@ -6,12 +6,12 @@ import jdk.jfr.Description;
 import java.util.List;
 
 @Description("Data Structure to implement Union Find used for Kruskal's Algorithm")
-public class MUF {
+public class UnionFind {
 
     int[] rank;
     int[] dad;
 
-    MUF(int nodes) {
+    UnionFind(int nodes) {
         rank = new int[nodes];
         dad = new int[nodes];
         for (int i = 0; i < nodes; i++) {
