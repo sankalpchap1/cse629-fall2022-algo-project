@@ -8,13 +8,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-public class EdgeHeapNew {
+public class EdgeHeap {
     Edge[] Heap;
-
     private int size;
     private int maxsize;
 
-    public EdgeHeapNew(int maxsize) {
+    public EdgeHeap(int maxsize) {
         this.maxsize = maxsize;
         this.size = 0;
         Heap = new Edge[maxsize];
@@ -135,7 +134,7 @@ public class EdgeHeapNew {
         edges.add(new Edge(8, 11, 4));
         edges.add(new Edge(12, 11, 2));
         edges.add(new Edge(6, 2, 9));
-        EdgeHeapNew maxHeapEdge = new EdgeHeapNew(edges.size());
+        EdgeHeap maxHeapEdge = new EdgeHeap(edges.size());
 
         edges.forEach(maxHeapEdge::insert);
 

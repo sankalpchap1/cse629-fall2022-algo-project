@@ -1,7 +1,7 @@
 package com.algoproject.algorithms;
 
 import com.algoproject.graph.GraphGeneration;
-import com.algoproject.heap.EdgeHeapNew;
+import com.algoproject.heap.EdgeHeap;
 import com.algoproject.model.Edge;
 import com.algoproject.model.Graph;
 import com.algoproject.model.UnionFind;
@@ -17,7 +17,7 @@ public class Kruskal {
         UnionFind unionFind = new UnionFind(n);
 
         List<Edge> edgeList = graph.getEdges();
-        EdgeHeapNew edgeHeap = new EdgeHeapNew(edgeList.size()+1);
+        EdgeHeap edgeHeap = new EdgeHeap(edgeList.size()+1);
         edgeList.forEach(edgeHeap::insert);
 
         Vertex[] mst = new Vertex[n];// To store the maximum spanning tree
