@@ -1,4 +1,4 @@
-package com.algoproject.algorithms;
+package com.algoproject.heap;
 
 import com.algoproject.model.Edge;
 import jdk.jfr.Description;
@@ -11,7 +11,7 @@ public class UnionFind {
     int[] rank;
     int[] dad;
 
-    UnionFind(int nodes) {
+    public UnionFind(int nodes) {
         rank = new int[nodes];
         dad = new int[nodes];
         for (int i = 0; i < nodes; i++) {

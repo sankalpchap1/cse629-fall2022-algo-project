@@ -14,7 +14,7 @@ import static com.algoproject.model.Status.*;
 
 @Description("Implementation of Dijkstra's Algorithms with using MaxHeap - VertexHeap")
 public class DijkstraWithHeap {
-    public static int apply(Graph graph, int s, int target, int n) {
+    public static void apply(Graph graph, int s, int target, int n) {
         Status[] status = new Status[n];
         Arrays.fill(status, UNSEEN);
         int[] bw = new int[n];
@@ -31,15 +31,13 @@ public class DijkstraWithHeap {
             status[temp.getVertex()] = FRINGE;
             dad[temp.getVertex()] = s;
             bw[temp.getVertex()] = temp.getEdgeWeight();
-//            temp.setBw(temp.getEdgeWeight());
             fringes.add(temp);
-            VertexHeap.insert(temp.getVertex(),bw[temp.getVertex()]);
+            VertexHeap.insert(temp.getVertex(), bw[temp.getVertex()]);
             temp = temp.getNext();
         }
 
-        // add nodes for unseen in heap and update status, dad and bw for unseen and
-        // fringe
-        while (VertexHeap.getSize()!=0) {
+        // add nodes for unseen in heap and update status, dad and bw for unseen and fringe
+        while (VertexHeap.getSize() != 0) {
             int maxIndex = VertexHeap.extractMax(0);
             status[maxIndex] = INTREE;
             Vertex node = vertices[maxIndex];
@@ -60,14 +58,12 @@ public class DijkstraWithHeap {
             }
         }
 
-        // get max bw and path from dest to src
-        System.out.println("Max bandwidth with heap using Dijkstra is: " + bw[target]);
-//        System.out.print("s-target path: ");
-//        while (target != s) {
-//            System.out.print(target + " <-- ");
-//            target = dad[target];
-//        }
-//        System.out.println(target);
-        return bw[target];
+        System.out.println("Max BW from Dijkstra's using Max Heap is: " + bw[target]);
+        System.out.print("s-t path: ");
+        while (target != s) {
+            System.out.print(target + " <–– ");
+            target = dad[target];
+        }
+        System.out.println(target);
     }
 }

@@ -13,7 +13,7 @@ import static com.algoproject.model.Status.*;
 
 @Description("Implementation of Dijkstra's Algorithms without using MaxHeap")
 public class DijkstraWithoutHeap {
-    public static int apply(Graph graph, int source, int target, int n) {
+    public static void apply(Graph graph, int source, int target, int n) {
         Status[] status = new Status[n];
         Arrays.fill(status, UNSEEN);
         int[] bw = new int[n];
@@ -53,15 +53,15 @@ public class DijkstraWithoutHeap {
                 node = node.getNext();
             }
         }
-        // get max bw and path from t to s
-        System.out.println("Max bandwidth without heap using Dijkstra is: " + bw[target]);
-//        System.out.print("s-t path: ");
-//        while (target != source) {
-//            System.out.print(target + " <-- ");
-//            target = dad[target];
-//        }
-//        System.out.println(target);
-        return bw[target];
+
+        // Printing Max BW of Target and the corresponding s-t path
+        System.out.println("Max BW from Dijkstra's without using Heap is: " + bw[target]);
+        System.out.print("s-t path: ");
+        while (target != source) {
+            System.out.print(target + " <–– ");
+            target = dad[target];
+        }
+        System.out.println(target);
     }
 
     //	Get the Max Fringe from a list of Fringes

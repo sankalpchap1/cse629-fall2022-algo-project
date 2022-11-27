@@ -1,8 +1,11 @@
 package com.algoproject.heap;
 
+import com.algoproject.model.Vertex;
 import jdk.jfr.Description;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @Description("Data Structure to implement max Heap for Vertices using H, P and D array used in Dijkstra's algorithm")
 public class VertexHeap {
@@ -81,7 +84,7 @@ public class VertexHeap {
     }
 
     public static void insert(int vertex, int element) {
-//        ensureCapacity();
+        ensureCapacity();
         Heap[size] = element;
         vertices[size] = vertex;
         positionArray[vertex] = size;
@@ -97,6 +100,7 @@ public class VertexHeap {
     private static void ensureCapacity() {
         if (size == maxsize) {
             Heap = Arrays.copyOf(Heap, maxsize * 2);
+            vertices = Arrays.copyOf(vertices, maxsize * 2);
             positionArray = Arrays.copyOf(positionArray, maxsize * 2);
             maxsize = maxsize * 2;
         }
