@@ -10,8 +10,14 @@ import java.util.*;
 public class GraphGeneration {
     public static Random random = new Random(); // random number generator
 
+    public static void generateGraph(Graph graph, int n, int weightLimit, int targetDegree){
+        generateConnectedGraph(graph, n, weightLimit);
+        completeGraph(graph, n, weightLimit, targetDegree);
+        generateMST(graph, n);
+    }
+
     //	Generate a connected graph -> Each vertex is connected to it's next vertex forming a circular graph
-    public static void generateConnectedGraph(Graph graph, int n, int weightLimit) {
+    private static void generateConnectedGraph(Graph graph, int n, int weightLimit) {
         List<Edge> edges = graph.getEdges();
         Map<String, Integer> edgeMap = graph.getEdgeMap();
         for (int i = 0; i < n; i++) {
@@ -111,6 +117,14 @@ public class GraphGeneration {
                 maxST.get(edge.getVertex2()).add(new Vertex(edge.getVertex1(), edge.getEdgeWeight(), 1, null));
             }
         }
+    }
 
+    public static int[] getRandomSourceAndTarget(int n){
+        int s = random.nextInt(n);
+        int t = s;
+        while (s == t){
+            t = random.nextInt(n);
+        }
+        return new int[]{s,t};
     }
 }

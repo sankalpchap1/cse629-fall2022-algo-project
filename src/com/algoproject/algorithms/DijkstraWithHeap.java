@@ -6,9 +6,7 @@ import com.algoproject.model.Status;
 import com.algoproject.model.Vertex;
 import jdk.jfr.Description;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import static com.algoproject.model.Status.*;
 
@@ -20,7 +18,6 @@ public class DijkstraWithHeap {
         int[] bw = new int[n];
         int[] dad = new int[n];
         Vertex[] vertices = graph.getVertices();
-        List<Vertex> fringes = new ArrayList<>();
 
         status[s] = INTREE;
 
@@ -31,7 +28,6 @@ public class DijkstraWithHeap {
             status[temp.getVertex()] = FRINGE;
             dad[temp.getVertex()] = s;
             bw[temp.getVertex()] = temp.getEdgeWeight();
-            fringes.add(temp);
             VertexHeap.insert(temp.getVertex(), bw[temp.getVertex()]);
             temp = temp.getNext();
         }
