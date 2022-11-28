@@ -1,4 +1,4 @@
-# CSCE 629 Fall 2022 Analysis of Algorithms Course Project
+# CSE 629 Fall 2022 Analysis of Algorithms Course Project
 Network optimization has been an important area in the current research in computer science and computer engineering. 
 In this course project, I have implemented a network routing protocol using the data structures and algorithms studied in class. 
 This provided me with an opportunity to translate your theoretical understanding into a real-world practical computer program. 

@@ -108,7 +108,7 @@ public class GraphGeneration {
 
         List<Edge> edgeList = graph.getEdges();
         //sort the edges based on their weights
-        unionFind.sort(edgeList);
+        unionFind.sortEdges(edgeList);
 
         //get MST by performing union and find operations on the edges
         for (int i = 0; i < n; i++) {

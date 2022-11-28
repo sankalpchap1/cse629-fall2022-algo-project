@@ -20,7 +20,6 @@ public class UnionFind {
         }
     }
 
-    //find root of that vertex
     public int find(int x) {
         if (dad[x] != x) {
             dad[x] = find(dad[x]);
@@ -28,7 +27,6 @@ public class UnionFind {
         return dad[x];
     }
 
-    //join the shorter tree to the taller tree
     public void union(int node1, int node2) {
         int r1 = find(node1);
         int r2 = find(node2);
@@ -42,8 +40,29 @@ public class UnionFind {
         }
     }
 
+    private void maxHeapify(List<Edge> edges, int n, int i) {
+        int largest = i;
+        int leftChild = 2 * i + 1;
+        int rightChild = 2 * i + 2;
+
+        if (leftChild < n && edges.get(leftChild).getEdgeWeight() < edges.get(largest).getEdgeWeight()) {
+            largest = leftChild;
+        }
+
+        if (rightChild < n && edges.get(rightChild).getEdgeWeight() < edges.get(largest).getEdgeWeight()) {
+            largest = rightChild;
+        }
+
+        if (largest != i) {
+            Edge temp = edges.get(i);
+            edges.set(i, edges.get(largest));
+            edges.set(largest, temp);
+            maxHeapify(edges, n, largest);
+        }
+    }
+
     //heap sort to sort edges in decreasing order
-    public void sort(List<Edge> edges) {
+    public void sortEdges(List<Edge> edges) {
         int n = edges.size();
         for (int i = n / 2 - 1; i >= 0; i--) {
             maxHeapify(edges, n, i);
@@ -53,25 +72,6 @@ public class UnionFind {
             edges.set(0, edges.get(i));
             edges.set(i, temp);
             maxHeapify(edges, i, 0);
-        }
-    }
-
-    //rearrange heap
-    void maxHeapify(List<Edge> edges, int n, int i) {
-        int largest = i;
-        int leftChild = 2 * i + 1;
-        int rightChild = 2 * i + 2;
-        if (leftChild < n && edges.get(leftChild).getEdgeWeight() < edges.get(largest).getEdgeWeight()) {
-            largest = leftChild;
-        }
-        if (rightChild < n && edges.get(rightChild).getEdgeWeight() < edges.get(largest).getEdgeWeight()) {
-            largest = rightChild;
-        }
-        if (largest != i) {
-            Edge temp = edges.get(i);
-            edges.set(i, edges.get(largest));
-            edges.set(largest, temp);
-            maxHeapify(edges, n, largest);
         }
     }
 }
