@@ -5,8 +5,10 @@ import com.algoproject.algorithms.DijkstraWithoutHeap;
 import com.algoproject.algorithms.Kruskal;
 import com.algoproject.model.Graph;
 
-import static com.algoproject.graph.GraphGeneration.generateGraph;
-import static com.algoproject.graph.GraphGeneration.getRandomSourceAndTarget;
+import java.util.concurrent.TimeUnit;
+
+import static com.algoproject.graph.GraphGenerator.generateGraph;
+import static com.algoproject.graph.GraphGenerator.getRandomSourceAndTarget;
 
 public class Main {
     public static int noOfNodes = 5000; // No. of vertices
@@ -19,13 +21,13 @@ public class Main {
             System.out.println("===================Operation for graph 1===================");
             Graph graph1 = new Graph(noOfNodes);
             generateGraph(graph1, weightLimit, 5);
-            System.out.println("Testing Graph1 for 5 s-t pairs");
+            System.out.println("------------Testing Graph1 for 5 s-t pairs------------");
             applyAlgorithms(graph1);
 
             System.out.println("===================Operation for graph 2===================");
             Graph graph2 = new Graph(noOfNodes);
             generateGraph(graph2, weightLimit, (int) Math.round(noOfNodes * 0.165));
-            System.out.println("Testing Graph2 for 5 s-t pairs");
+            System.out.println("------------Testing Graph2 for 5 s-t pairs------------");
             applyAlgorithms(graph2);
 
             System.out.println("Ending here");
@@ -42,20 +44,20 @@ public class Main {
             long startTime = System.nanoTime();
             DijkstraWithoutHeap.apply(graph, source, target);
             long endTime = System.nanoTime();
-            long timeElapsed = (endTime - startTime) / 1000000;
+            double timeElapsed = (endTime - startTime) / 1E6;
             System.out.println("TimeRequires for DijkstraWithoutHeap (in milliseconds): " + timeElapsed + "\n");
 
             startTime = System.nanoTime();
             DijkstraWithHeap.apply(graph, source, target);
             endTime = System.nanoTime();
-            timeElapsed = (endTime - startTime) / 1000000;
+            timeElapsed = (endTime - startTime) / 1E6;
             System.out.println("TimeRequires for DijkstraWithHeap (in milliseconds): " + timeElapsed + "\n");
 
             startTime = System.nanoTime();
             Kruskal.apply(graph, source, target);
             endTime = System.nanoTime();
-            timeElapsed = endTime - startTime;
-            System.out.println("TimeRequires for Kruskal (in nanoseconds): " + timeElapsed);
+            timeElapsed = (endTime - startTime)/1E6;
+            System.out.println("TimeRequires for Kruskal (in millisecond): " + timeElapsed);
             System.out.println("==================================================================");
         }
     }

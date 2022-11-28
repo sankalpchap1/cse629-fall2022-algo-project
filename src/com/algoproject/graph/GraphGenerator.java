@@ -10,26 +10,36 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-public class GraphGeneration {
+public class GraphGenerator {
     private static final Random random = new Random(); // random number generator
 
     public static void generateGraph(Graph graph, int weightLimit, int targetDegree) {
+        System.out.println("------------Generating graph------------");
+        long startTime = System.nanoTime();
         generateConnectedGraph(graph, weightLimit);
         completeGraph(graph, weightLimit, targetDegree);
+        long endTime = System.nanoTime();
+        double timeElapsed = (endTime - startTime) / 1E6;
+        System.out.println("TimeRequired for generatingGraph (in milliseconds): " + timeElapsed + "\n");
+
+
+        System.out.println("------------Generating MST------------");
+        startTime = System.nanoTime();
         generateMST(graph);
+        endTime = System.nanoTime();
+        timeElapsed = (endTime - startTime) / 1E6;
+        System.out.println("TimeRequired for generatingMST (in milliseconds): " + timeElapsed + "\n");
     }
 
     //	Generate a connected graph -> Each vertex is connected to it's next vertex forming a circular graph
     private static void generateConnectedGraph(Graph graph, int weightLimit) {
         int n = graph.getNoOfNodes();
         List<Edge> edges = graph.getEdges();
-        Map<String, Integer> edgeMap = graph.getEdgeMap();
         for (int i = 0; i < n; i++) {
             int randWeight = getRandomWeight(weightLimit);
 
             // Adding i+1 th vertex in i's adj list
             edges.add(new Edge(i, (i + 1) % n, randWeight));
-            edgeMap.put(getEdge(i, (i + 1) % n), randWeight);
             if (graph.getVertices()[i] == null) {
                 graph.getVertices()[i] = new Vertex((i + 1) % n, randWeight, 1, null);
             } else {
@@ -51,19 +61,11 @@ public class GraphGeneration {
         }
     }
 
-    private static String getEdge(int v1, int v2) {
-        if (v1 < v2) {
-            return v1 + "-" + v2;
-        }
-        return v2 + "-" + v1;
-    }
-
     private static void completeGraph(Graph graph, int weightLimit, int targetDegree) {
         int n = graph.getNoOfNodes();
         int destination; // random destination variable
         int weight; // random edge weight generator variable
         List<Edge> edges = graph.getEdges();
-        Map<String, Integer> edgeMap = graph.getEdgeMap();
         for (int i = 0; i < n; i++) {
 
             int currDegree = graph.getVertices()[i].getDegree();
@@ -75,7 +77,6 @@ public class GraphGeneration {
                 ) {
                     weight = getRandomWeight(weightLimit);
                     edges.add(new Edge(i, destination, weight));
-                    edgeMap.put(getEdge(i, (destination) % n), weight);
                     graph.getVertices()[i] = new Vertex(destination, weight,
                             graph.getVertices()[i].getDegree() + 1, graph.getVertices()[i]);
                     graph.getVertices()[destination] = new Vertex(i, weight,

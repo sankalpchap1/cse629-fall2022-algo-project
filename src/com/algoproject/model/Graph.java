@@ -16,15 +16,12 @@ public class Graph {
 
     private final List<Edge> edges;
 
-    private final Map<String, Integer> edgeMap;
-
     private final Map<Integer, List<Vertex>> maxSpanningTree;
 
     public Graph(final Integer noOfNodes) {
         this.noOfNodes = noOfNodes;
         this.vertices = new Vertex[noOfNodes];
         this.edges = new ArrayList<>();
-        this.edgeMap = new HashMap<>();
         this.maxSpanningTree = new HashMap<>(noOfNodes);
     }
 
@@ -38,10 +35,6 @@ public class Graph {
 
     public List<Edge> getEdges() {
         return edges;
-    }
-
-    public Map<String, Integer> getEdgeMap() {
-        return edgeMap;
     }
 
     public Map<Integer, List<Vertex>> getMaxSpanningTree() {
