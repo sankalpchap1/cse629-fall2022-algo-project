@@ -67,7 +67,8 @@ public class DijkstraWithoutHeap {
     //	Get the Max Fringe from a list of Fringes
     private static Vertex getMaxFringe(List<Vertex> fringes) {
         Vertex maxFringe = null;
-        int maxBW = fringes.stream().map(Vertex::getEdgeWeight)
+        int maxBW = fringes.stream()
+                .map(Vertex::getEdgeWeight)
                 .mapToInt(v -> v)
                 .max()
                 .getAsInt();

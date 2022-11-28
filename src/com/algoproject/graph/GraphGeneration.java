@@ -5,12 +5,15 @@ import com.algoproject.model.Edge;
 import com.algoproject.model.Graph;
 import com.algoproject.model.Vertex;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 public class GraphGeneration {
-    public static Random random = new Random(); // random number generator
+    private static final Random random = new Random(); // random number generator
 
-    public static void generateGraph(Graph graph, int n, int weightLimit, int targetDegree){
+    public static void generateGraph(Graph graph, int n, int weightLimit, int targetDegree) {
         generateConnectedGraph(graph, n, weightLimit);
         completeGraph(graph, n, weightLimit, targetDegree);
         generateMST(graph, n);
@@ -47,14 +50,14 @@ public class GraphGeneration {
         }
     }
 
-    public static String getEdge(int v1, int v2) {
+    private static String getEdge(int v1, int v2) {
         if (v1 < v2) {
             return v1 + "-" + v2;
         }
         return v2 + "-" + v1;
     }
 
-    public static void completeGraph(Graph graph, int n, int weightLimit, int targetDegree) {
+    private static void completeGraph(Graph graph, int n, int weightLimit, int targetDegree) {
         int destination; // random destination variable
         int weight; // random edge weight generator variable
         List<Edge> edges = graph.getEdges();
@@ -82,7 +85,7 @@ public class GraphGeneration {
     }
 
     private static int getRandomWeight(int weightLimit) {
-        return random.nextInt(weightLimit ) + 1;
+        return random.nextInt(weightLimit) + 1;
     }
 
     private static boolean checkAdjList(Vertex vertex, int destination) {
@@ -96,7 +99,7 @@ public class GraphGeneration {
         return false;
     }
 
-    public static void generateMST(Graph graph, int n){
+    private static void generateMST(Graph graph, int n) {
         UnionFind unionFind = new UnionFind(n);
         Map<Integer, List<Vertex>> maxST = graph.getMaxSpanningTree();
 
@@ -119,12 +122,12 @@ public class GraphGeneration {
         }
     }
 
-    public static int[] getRandomSourceAndTarget(int n){
+    public static int[] getRandomSourceAndTarget(int n) {
         int s = random.nextInt(n);
         int t = s;
-        while (s == t){
+        while (s == t) {
             t = random.nextInt(n);
         }
-        return new int[]{s,t};
+        return new int[]{s, t};
     }
 }

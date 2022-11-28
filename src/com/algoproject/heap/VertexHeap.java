@@ -1,11 +1,8 @@
 package com.algoproject.heap;
 
-import com.algoproject.model.Vertex;
 import jdk.jfr.Description;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 @Description("Data Structure to implement max Heap for Vertices using H, P and D array used in Dijkstra's algorithm")
 public class VertexHeap {

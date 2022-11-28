@@ -59,13 +59,13 @@ public class UnionFind {
     //rearrange heap
     void heapify(List<Edge> edges, int n, int i) {
         int largest = i;
-        int left = 2 * i + 1;
-        int right = 2 * i + 2;
-        if (left < n && edges.get(left).getEdgeWeight() < edges.get(largest).getEdgeWeight()) {
-            largest = left;
+        int leftChild = 2 * i + 1;
+        int rightChild = 2 * i + 2;
+        if (leftChild < n && edges.get(leftChild).getEdgeWeight() < edges.get(largest).getEdgeWeight()) {
+            largest = leftChild;
         }
-        if (right < n && edges.get(right).getEdgeWeight() < edges.get(largest).getEdgeWeight()) {
-            largest = right;
+        if (rightChild < n && edges.get(rightChild).getEdgeWeight() < edges.get(largest).getEdgeWeight()) {
+            largest = rightChild;
         }
         if (largest != i) {
             Edge temp = edges.get(i);
