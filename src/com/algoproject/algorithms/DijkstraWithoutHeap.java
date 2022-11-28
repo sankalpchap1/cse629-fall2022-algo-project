@@ -13,7 +13,8 @@ import static com.algoproject.model.Status.*;
 
 @Description("Implementation of Dijkstra's Algorithms without using MaxHeap")
 public class DijkstraWithoutHeap {
-    public static void apply(Graph graph, int source, int target, int n) {
+    public static void apply(Graph graph, int source, int target) {
+        int n = graph.getNoOfNodes();
         Status[] status = new Status[n];
         Arrays.fill(status, UNSEEN);
         int[] bw = new int[n];
@@ -24,7 +25,6 @@ public class DijkstraWithoutHeap {
         bw[source] = Integer.MAX_VALUE;
         dad[source] = -1;
 
-        // add nodes from source's adj list to the fringes
         Vertex temp = vertices[source];
         while (temp != null) {
             status[temp.getVertex()] = FRINGE;
@@ -64,7 +64,6 @@ public class DijkstraWithoutHeap {
         System.out.println(target);
     }
 
-    //	Get the Max Fringe from a list of Fringes
     private static Vertex getMaxFringe(List<Vertex> fringes) {
         Vertex maxFringe = null;
         int maxBW = fringes.stream()
@@ -85,7 +84,6 @@ public class DijkstraWithoutHeap {
         return maxFringe;
     }
 
-    //	Update the value in a Fringe
     private static void updateFringe(List<Vertex> fringes, int vertex, int updatedWt) {
         for (Vertex fringe : fringes) {
             if (fringe.getVertex() == vertex) {

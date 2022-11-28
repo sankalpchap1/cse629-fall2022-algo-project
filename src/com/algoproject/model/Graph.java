@@ -2,11 +2,15 @@ package com.algoproject.model;
 
 import jdk.jfr.Description;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Description("Data Structure to store the graph")
 public class Graph {
+
+    private final Integer noOfNodes;
 
     private final Vertex[] vertices;
 
@@ -16,14 +20,16 @@ public class Graph {
 
     private final Map<Integer, List<Vertex>> maxSpanningTree;
 
-    public Graph(final Vertex[] vertices,
-                 final List<Edge> edges,
-                 final Map<String, Integer> edgeMap,
-                 final Map<Integer, List<Vertex>> maxSpanningTree) {
-        this.vertices = vertices;
-        this.edges = edges;
-        this.edgeMap = edgeMap;
-        this.maxSpanningTree = maxSpanningTree;
+    public Graph(final Integer noOfNodes) {
+        this.noOfNodes = noOfNodes;
+        this.vertices = new Vertex[noOfNodes];
+        this.edges = new ArrayList<>();
+        this.edgeMap = new HashMap<>();
+        this.maxSpanningTree = new HashMap<>(noOfNodes);
+    }
+
+    public Integer getNoOfNodes() {
+        return noOfNodes;
     }
 
     public Vertex[] getVertices() {

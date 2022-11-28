@@ -12,7 +12,8 @@ import static com.algoproject.model.Status.*;
 
 @Description("Implementation of Dijkstra's Algorithms with using MaxHeap - VertexHeap")
 public class DijkstraWithHeap {
-    public static void apply(Graph graph, int s, int target, int n) {
+    public static void apply(Graph graph, int s, int target) {
+        int n = graph.getNoOfNodes();
         Status[] status = new Status[n];
         Arrays.fill(status, UNSEEN);
         int[] bw = new int[n];

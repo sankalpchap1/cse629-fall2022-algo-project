@@ -11,13 +11,14 @@ public class Kruskal {
     static int maxBandwidth = 0;
     static List<Integer> maxBwPath = new ArrayList<>();
 
-    public static void apply(Graph graph, int src, int dest, int n) {
-        boolean[] isVisited = new boolean[n];
+    public static void apply(Graph graph, int source, int destination) {
+        int n = graph.getNoOfNodes();
+        boolean[] visited = new boolean[n];
         ArrayList<Integer> path = new ArrayList<>();
-        path.add(src);
+        path.add(source);
         maxBandwidth = 0;
         maxBwPath.clear();
-        dfs(graph.getMaxSpanningTree(), isVisited, src, dest, path, Integer.MAX_VALUE);
+        dfs(graph.getMaxSpanningTree(), visited, source, destination, path, Integer.MAX_VALUE);
         System.out.println("Max BW from Kruskal's using Heap is: " + maxBandwidth);
 
         System.out.print("s-t path: ");
@@ -28,7 +29,8 @@ public class Kruskal {
     }
 
 
-    private static void dfs(Map<Integer, List<Vertex>> maxST, boolean[] isVisited, int node, int dest, List<Integer> path, int bandwidth) {
+    private static void dfs(Map<Integer, List<Vertex>> maxST, boolean[] visited,
+                            int node, int dest, List<Integer> path, int bandwidth) {
         if (maxBwPath != null && !maxBwPath.isEmpty()) {
             return;
         }
@@ -39,12 +41,12 @@ public class Kruskal {
             return;
         }
 
-        isVisited[node] = true;
+        visited[node] = true;
         List<Vertex> edges = maxST.get(node);
         for (Vertex edge : edges) {
-            if (!isVisited[edge.getVertex()]) {
+            if (!visited[edge.getVertex()]) {
                 path.add(edge.getVertex());
-                dfs(maxST, isVisited, edge.getVertex(), dest, path, Math.min(bandwidth, edge.getEdgeWeight()));
+                dfs(maxST, visited, edge.getVertex(), dest, path, Math.min(bandwidth, edge.getEdgeWeight()));
                 path.remove(path.size() - 1);
             }
         }

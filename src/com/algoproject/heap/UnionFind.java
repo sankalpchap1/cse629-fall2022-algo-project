@@ -46,18 +46,18 @@ public class UnionFind {
     public void sort(List<Edge> edges) {
         int n = edges.size();
         for (int i = n / 2 - 1; i >= 0; i--) {
-            heapify(edges, n, i);
+            maxHeapify(edges, n, i);
         }
         for (int i = n - 1; i > 0; i--) {
             Edge temp = edges.get(0);
             edges.set(0, edges.get(i));
             edges.set(i, temp);
-            heapify(edges, i, 0);
+            maxHeapify(edges, i, 0);
         }
     }
 
     //rearrange heap
-    void heapify(List<Edge> edges, int n, int i) {
+    void maxHeapify(List<Edge> edges, int n, int i) {
         int largest = i;
         int leftChild = 2 * i + 1;
         int rightChild = 2 * i + 2;
@@ -71,7 +71,7 @@ public class UnionFind {
             Edge temp = edges.get(i);
             edges.set(i, edges.get(largest));
             edges.set(largest, temp);
-            heapify(edges, n, largest);
+            maxHeapify(edges, n, largest);
         }
     }
 }

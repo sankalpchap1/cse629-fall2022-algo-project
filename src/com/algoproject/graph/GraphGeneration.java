@@ -13,14 +13,15 @@ import java.util.Random;
 public class GraphGeneration {
     private static final Random random = new Random(); // random number generator
 
-    public static void generateGraph(Graph graph, int n, int weightLimit, int targetDegree) {
-        generateConnectedGraph(graph, n, weightLimit);
-        completeGraph(graph, n, weightLimit, targetDegree);
-        generateMST(graph, n);
+    public static void generateGraph(Graph graph, int weightLimit, int targetDegree) {
+        generateConnectedGraph(graph, weightLimit);
+        completeGraph(graph, weightLimit, targetDegree);
+        generateMST(graph);
     }
 
     //	Generate a connected graph -> Each vertex is connected to it's next vertex forming a circular graph
-    private static void generateConnectedGraph(Graph graph, int n, int weightLimit) {
+    private static void generateConnectedGraph(Graph graph, int weightLimit) {
+        int n = graph.getNoOfNodes();
         List<Edge> edges = graph.getEdges();
         Map<String, Integer> edgeMap = graph.getEdgeMap();
         for (int i = 0; i < n; i++) {
@@ -57,7 +58,8 @@ public class GraphGeneration {
         return v2 + "-" + v1;
     }
 
-    private static void completeGraph(Graph graph, int n, int weightLimit, int targetDegree) {
+    private static void completeGraph(Graph graph, int weightLimit, int targetDegree) {
+        int n = graph.getNoOfNodes();
         int destination; // random destination variable
         int weight; // random edge weight generator variable
         List<Edge> edges = graph.getEdges();
@@ -99,7 +101,8 @@ public class GraphGeneration {
         return false;
     }
 
-    private static void generateMST(Graph graph, int n) {
+    private static void generateMST(Graph graph) {
+        int n = graph.getNoOfNodes();
         UnionFind unionFind = new UnionFind(n);
         Map<Integer, List<Vertex>> maxST = graph.getMaxSpanningTree();
 
