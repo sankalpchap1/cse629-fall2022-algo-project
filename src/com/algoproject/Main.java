@@ -27,23 +27,23 @@ public class Main {
                 int target = randomSourceTarget[1];
                 System.out.println("source: " + source + "; target: " + target);
 
-                long start_time = System.nanoTime();
+                long startTime = System.nanoTime();
                 DijkstraWithoutHeap.apply(graph1, source, target);
-                long end_time = System.nanoTime();
-                long time_req = (end_time - start_time) / 1000000;
-                System.out.println("TimeRequires for DijkstraWithoutHeap (in milliseconds): " + time_req + "\n");
+                long endTime = System.nanoTime();
+                long timeElapsed = (endTime - startTime) / 1000000;
+                System.out.println("TimeRequires for DijkstraWithoutHeap (in milliseconds): " + timeElapsed + "\n");
 
-                start_time = System.nanoTime();
+                startTime = System.nanoTime();
                 DijkstraWithHeap.apply(graph1, source, target);
-                end_time = System.nanoTime();
-                time_req = (end_time - start_time) / 1000000;
-                System.out.println("TimeRequires for DijkstraWithHeap (in milliseconds): " + time_req + "\n");
+                endTime = System.nanoTime();
+                timeElapsed = (endTime - startTime) / 1000000;
+                System.out.println("TimeRequires for DijkstraWithHeap (in milliseconds): " + timeElapsed + "\n");
 
-                start_time = System.nanoTime();
+                startTime = System.nanoTime();
                 Kruskal.apply(graph1, source, target);
-                end_time = System.nanoTime();
-                time_req = end_time - start_time;
-                System.out.println("TimeRequires for Kruskal (in nanoseconds): " + time_req);
+                endTime = System.nanoTime();
+                timeElapsed = endTime - startTime;
+                System.out.println("TimeRequires for Kruskal (in nanoseconds): " + timeElapsed);
 
                 System.out.println("==================================================================");
             }
@@ -58,23 +58,23 @@ public class Main {
                 int target = randomSourceTarget[1];
                 System.out.println("source: " + source + "; target: " + target);
 
-                long start_time = System.nanoTime();
+                long startTime = System.nanoTime();
                 DijkstraWithoutHeap.apply(graph2, source, target);
-                long end_time = System.nanoTime();
-                long time_req = (end_time - start_time) / 1000000;
-                System.out.println("TimeRequires for DijkstraWithoutHeap (in milliseconds): " + time_req + "\n");
+                long endTime = System.nanoTime();
+                long timeElapsed = (endTime - startTime) / 1000000;
+                System.out.println("TimeRequires for DijkstraWithoutHeap (in milliseconds): " + timeElapsed + "\n");
 
-                start_time = System.nanoTime();
+                startTime = System.nanoTime();
                 DijkstraWithHeap.apply(graph2, source, target);
-                end_time = System.nanoTime();
-                time_req = (end_time - start_time) / 1000000;
-                System.out.println("TimeRequires for DijkstraWithHeap (in milliseconds): " + time_req + "\n");
+                endTime = System.nanoTime();
+                timeElapsed = (endTime - startTime) / 1000000;
+                System.out.println("TimeRequires for DijkstraWithHeap (in milliseconds): " + timeElapsed + "\n");
 
-                start_time = System.nanoTime();
+                startTime = System.nanoTime();
                 Kruskal.apply(graph2, source, target);
-                end_time = System.nanoTime();
-                time_req = end_time - start_time;
-                System.out.println("TimeRequires for Kruskal (in nanoseconds): " + time_req);
+                endTime = System.nanoTime();
+                timeElapsed = endTime - startTime;
+                System.out.println("TimeRequires for Kruskal (in nanoseconds): " + timeElapsed);
 
                 System.out.println("==================================================================");
             }
