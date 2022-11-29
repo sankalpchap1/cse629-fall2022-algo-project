@@ -15,17 +15,21 @@ import static com.algoproject.model.Status.*;
 public class DijkstraWithoutHeap {
     public static void apply(Graph graph, int source, int target) {
         int n = graph.getNoOfNodes();
+
+        // Initialization of three arrays
+        int[] dad = new int[n];
         Status[] status = new Status[n];
         Arrays.fill(status, UNSEEN);
         int[] bw = new int[n];
-        int[] dad = new int[n];
-        Vertex[] vertices = graph.getVertices();
-        List<Vertex> fringes = new ArrayList<>();
+
+        dad[source] = -1;
         status[source] = INTREE;
         bw[source] = Integer.MAX_VALUE;
-        dad[source] = -1;
 
+        Vertex[] vertices = graph.getVertices();
         Vertex temp = vertices[source];
+        List<Vertex> fringes = new ArrayList<>();
+        // Add the neighbors of the source to fringes and mark their status as FRINGE
         while (temp != null) {
             status[temp.getVertex()] = FRINGE;
             dad[temp.getVertex()] = source;
@@ -35,7 +39,7 @@ public class DijkstraWithoutHeap {
         }
 
         while (!fringes.isEmpty()) {
-            Vertex maxFringe = getMaxFringe(fringes);
+            Vertex maxFringe = extractFringeWithMaximumBandwidth(fringes);
             status[maxFringe.getVertex()] = INTREE;
             Vertex node = vertices[maxFringe.getVertex()];
             while (node != null) {
@@ -48,7 +52,7 @@ public class DijkstraWithoutHeap {
                         && bw[node.getVertex()] < Math.min(bw[maxFringe.getVertex()], node.getEdgeWeight())) {
                     dad[node.getVertex()] = maxFringe.getVertex();
                     bw[node.getVertex()] = Math.min(bw[maxFringe.getVertex()], node.getEdgeWeight());
-                    updateFringe(fringes, node.getVertex(), bw[node.getVertex()]);
+                    fringeUpdates(fringes, node.getVertex(), bw[node.getVertex()]);
                 }
                 node = node.getNext();
             }
@@ -64,7 +68,7 @@ public class DijkstraWithoutHeap {
         System.out.println(target);
     }
 
-    private static Vertex getMaxFringe(List<Vertex> fringes) {
+    private static Vertex extractFringeWithMaximumBandwidth(List<Vertex> fringes) {
         Vertex maxFringe = null;
         int maxBW = fringes.stream()
                 .map(Vertex::getEdgeWeight)
@@ -84,7 +88,7 @@ public class DijkstraWithoutHeap {
         return maxFringe;
     }
 
-    private static void updateFringe(List<Vertex> fringes, int vertex, int updatedWt) {
+    private static void fringeUpdates(List<Vertex> fringes, int vertex, int updatedWt) {
         for (Vertex fringe : fringes) {
             if (fringe.getVertex() == vertex) {
                 fringe.setEdgeWeight(updatedWt);

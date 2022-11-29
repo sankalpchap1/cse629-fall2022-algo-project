@@ -81,7 +81,7 @@ public class VertexHeap {
     }
 
     public static void insert(int vertex, int element) {
-        ensureCapacity();
+        handleCapacityOverflow();
         Heap[size] = element;
         vertices[size] = vertex;
         positionArray[vertex] = size;
@@ -94,7 +94,7 @@ public class VertexHeap {
         size++;
     }
 
-    private static void ensureCapacity() {
+    private static void handleCapacityOverflow() {
         if (size == maxsize) {
             Heap = Arrays.copyOf(Heap, maxsize * 2);
             vertices = Arrays.copyOf(vertices, maxsize * 2);
@@ -103,7 +103,7 @@ public class VertexHeap {
         }
     }
 
-    public static int extractMax(int index) {
+    public static int popMax(int index) {
         int popped = vertices[index];
         size--;
         Heap[index] = Heap[size];
@@ -136,11 +136,11 @@ public class VertexHeap {
         insert(2, 90);
 
         delete(8);
-        System.out.println("The max val is " + extractMax(0));
+        System.out.println("The max val is " + popMax(0));
     }
 
     public static void delete(int vertex) {
         int pos = positionArray[vertex];
-        extractMax(pos);
+        popMax(pos);
     }
 }

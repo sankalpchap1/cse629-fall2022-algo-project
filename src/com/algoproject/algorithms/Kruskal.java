@@ -8,47 +8,48 @@ import java.util.List;
 import java.util.Map;
 
 public class Kruskal {
-    static int maxBandwidth = 0;
-    static List<Integer> maxBwPath = new ArrayList<>();
+    static int maximumBandwidth;
+    static List<Integer> maximumBandwidthPath = new ArrayList<>();
 
     public static void apply(Graph graph, int source, int destination) {
         int n = graph.getNoOfNodes();
         boolean[] visited = new boolean[n];
+        maximumBandwidth = 0;
+        maximumBandwidthPath.clear();
         ArrayList<Integer> path = new ArrayList<>();
         path.add(source);
-        maxBandwidth = 0;
-        maxBwPath.clear();
         dfs(graph.getMaxSpanningTree(), visited, source, destination, path, Integer.MAX_VALUE);
-        System.out.println("Max BW from Kruskal's using Heap is: " + maxBandwidth);
+        System.out.println("Max BW from Kruskal's using Heap is: " + maximumBandwidth);
 
         System.out.print("s-t path: ");
-        for (int i = maxBwPath.size() - 1; i > 0; i--) {
-            System.out.print(maxBwPath.get(i) + " <–– ");
+        for (int i = maximumBandwidthPath.size() - 1; i > 0; i--) {
+            System.out.print(maximumBandwidthPath.get(i) + " <–– ");
         }
-        System.out.println(maxBwPath.get(0));
+        System.out.println(maximumBandwidthPath.get(0));
     }
 
 
     private static void dfs(Map<Integer, List<Vertex>> maxST, boolean[] visited,
                             int node, int dest, List<Integer> path, int bandwidth) {
-        if (maxBwPath != null && !maxBwPath.isEmpty()) {
+        if (maximumBandwidthPath != null && !maximumBandwidthPath.isEmpty()) {
             return;
         }
 
         if (node == dest) {
-            maxBwPath = new ArrayList<>(path);
-            maxBandwidth = bandwidth;
+            maximumBandwidthPath = new ArrayList<>(path);
+            maximumBandwidth = bandwidth;
             return;
         }
 
         visited[node] = true;
-        List<Vertex> edges = maxST.get(node);
-        for (Vertex edge : edges) {
+        maxST.get(node).forEach(edge -> {
             if (!visited[edge.getVertex()]) {
+                // Standard backtracking template
                 path.add(edge.getVertex());
-                dfs(maxST, visited, edge.getVertex(), dest, path, Math.min(bandwidth, edge.getEdgeWeight()));
+                int nextNode = edge.getVertex();
+                dfs(maxST, visited, nextNode, dest, path, Math.min(bandwidth, edge.getEdgeWeight()));
                 path.remove(path.size() - 1);
             }
-        }
+        });
     }
 }

@@ -8,34 +8,36 @@ import java.util.List;
 @Description("Data Structure to implement Union Find used for Kruskal's Algorithm")
 public class UnionFind {
 
+    // array to maintain the ranks of vertices
     int[] rank;
-    int[] dad;
+    // array to maintain the parent of a vertex
+    int[] parent;
 
     public UnionFind(int nodes) {
         rank = new int[nodes];
-        dad = new int[nodes];
+        parent = new int[nodes];
         for (int i = 0; i < nodes; i++) {
             rank[i] = 0;
-            dad[i] = i;
+            parent[i] = i;
         }
     }
 
     public int find(int x) {
-        if (dad[x] != x) {
-            dad[x] = find(dad[x]);
+        while (parent[x]!=x){
+            x = parent[x];
         }
-        return dad[x];
+        return x;
     }
 
     public void union(int node1, int node2) {
         int r1 = find(node1);
         int r2 = find(node2);
         if (rank[r1] < rank[r2]) {
-            dad[r1] = r2;
+            parent[r1] = r2;
         } else if (rank[r1] > rank[r2]) {
-            dad[r2] = r1;
+            parent[r2] = r1;
         } else {
-            dad[r2] = r1;
+            parent[r2] = r1;
             rank[r1]++;
         }
     }

@@ -12,22 +12,23 @@ import static com.algoproject.model.Status.*;
 
 @Description("Implementation of Dijkstra's Algorithms with using MaxHeap - VertexHeap")
 public class DijkstraWithHeap {
-    public static void apply(Graph graph, int s, int target) {
+    public static void apply(Graph graph, int source, int target) {
         int n = graph.getNoOfNodes();
+        int[] dad = new int[n];
         Status[] status = new Status[n];
         Arrays.fill(status, UNSEEN);
         int[] bw = new int[n];
-        int[] dad = new int[n];
-        Vertex[] vertices = graph.getVertices();
 
-        status[s] = INTREE;
+
+        status[source] = INTREE;
 
         VertexHeap.init(n);
         // add nodes from src
-        Vertex temp = vertices[s];
+        Vertex[] vertices = graph.getVertices();
+        Vertex temp = vertices[source];
         while (temp != null) {
             status[temp.getVertex()] = FRINGE;
-            dad[temp.getVertex()] = s;
+            dad[temp.getVertex()] = source;
             bw[temp.getVertex()] = temp.getEdgeWeight();
             VertexHeap.insert(temp.getVertex(), bw[temp.getVertex()]);
             temp = temp.getNext();
@@ -35,7 +36,7 @@ public class DijkstraWithHeap {
 
         // add nodes for unseen in heap and update status, dad and bw for unseen and fringe
         while (VertexHeap.getSize() != 0) {
-            int maxIndex = VertexHeap.extractMax(0);
+            int maxIndex = VertexHeap.popMax(0);
             status[maxIndex] = INTREE;
             Vertex node = vertices[maxIndex];
             while (node != null) {
@@ -57,7 +58,7 @@ public class DijkstraWithHeap {
 
         System.out.println("Max BW from Dijkstra's using Max Heap is: " + bw[target]);
         System.out.print("s-t path: ");
-        while (target != s) {
+        while (target != source) {
             System.out.print(target + " <–– ");
             target = dad[target];
         }
