@@ -12,14 +12,17 @@ public class Graph {
 
     private final Integer noOfNodes;
 
+    private final GraphType type;
+
     private final Vertex[] vertices;
 
     private final List<Edge> edges;
 
     private final Map<Integer, List<Vertex>> maxSpanningTree;
 
-    public Graph(final Integer noOfNodes) {
+    public Graph(final Integer noOfNodes, final GraphType type) {
         this.noOfNodes = noOfNodes;
+        this.type = type;
         this.vertices = new Vertex[noOfNodes];
         this.edges = new ArrayList<>();
         this.maxSpanningTree = new HashMap<>(noOfNodes);
@@ -27,6 +30,10 @@ public class Graph {
 
     public Integer getNoOfNodes() {
         return noOfNodes;
+    }
+
+    public GraphType getType() {
+        return type;
     }
 
     public Vertex[] getVertices() {

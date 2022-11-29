@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import static com.algoproject.model.GraphType.*;
+
 public class GraphGenerator {
     private static final Random random = new Random(); // random number generator
 
@@ -17,11 +19,14 @@ public class GraphGenerator {
         System.out.println("------------Generating graph------------");
         long startTime = System.nanoTime();
         generateConnectedGraph(graph, weightLimit);
-        completeGraph(graph, weightLimit, targetDegree);
+        if (graph.getType() == SPARSE) {
+            completeSparseGraph(graph, weightLimit, targetDegree);
+        } else {
+            completeDenseGraph(graph, weightLimit, targetDegree);
+        }
         long endTime = System.nanoTime();
         double timeElapsed = (endTime - startTime) / 1E6;
         System.out.println("TimeRequired for generatingGraph (in milliseconds): " + timeElapsed + "\n");
-
 
         System.out.println("------------Generating MST------------");
         startTime = System.nanoTime();
@@ -29,6 +34,21 @@ public class GraphGenerator {
         endTime = System.nanoTime();
         timeElapsed = (endTime - startTime) / 1E6;
         System.out.println("TimeRequired for generatingMST (in milliseconds): " + timeElapsed + "\n");
+    }
+
+    public static void calculateAvgDegree(final Graph graph) {
+        System.out.println("------------Calculating Avg Degree------------");
+        double avgDegree = 2 * ((double) graph.getEdges().size()) / graph.getNoOfNodes();
+        System.out.println("Avg Degree for this graph is: " + avgDegree + "\n");
+    }
+
+    public static void calculateDegreePercentage(final Graph graph) {
+        System.out.println("------------Calculating neighbour percentage------------");
+        int n = graph.getNoOfNodes();
+        double avgDegree = 2 * ((double) graph.getEdges().size()) / n;
+        double percentageConnection = 100.0 * avgDegree / n;
+
+        System.out.println("Each node is connected to approx: " + percentageConnection + "% of adjacent vertices\n");
     }
 
     //	Generate a connected graph -> Each vertex is connected to it's next vertex forming a circular graph
@@ -61,7 +81,29 @@ public class GraphGenerator {
         }
     }
 
-    private static void completeGraph(Graph graph, int weightLimit, int targetDegree) {
+    public static void completeSparseGraph(Graph graph, int weightLimit, int targetDegree) {
+        int n = graph.getNoOfNodes();
+        Vertex[] vertices = graph.getVertices();
+        List<Edge> edges = graph.getEdges();
+        int avgEdgeSum = n * targetDegree / 2;
+        int currEdgeSum = n;
+
+        while (currEdgeSum < avgEdgeSum) {
+            int source = random.nextInt(n);
+            int destination = random.nextInt(n);
+
+            if (!checkAdjList(vertices[source], destination) && source != destination) {
+                // random edge weight generator variable
+                int weight = getRandomWeight(weightLimit);
+                edges.add(new Edge(source, destination, weight));
+                vertices[source] = new Vertex(destination, weight, vertices[source].getDegree() + 1, vertices[source]);
+                vertices[destination] = new Vertex(source, weight, vertices[destination].getDegree() + 1, vertices[destination]);
+                currEdgeSum++;
+            }
+        }
+    }
+
+    private static void completeDenseGraph(Graph graph, int weightLimit, int targetDegree) {
         int n = graph.getNoOfNodes();
         int destination; // random destination variable
         int weight; // random edge weight generator variable
@@ -127,11 +169,11 @@ public class GraphGenerator {
     }
 
     public static int[] getRandomSourceAndTarget(int n) {
-        int s = random.nextInt(n);
-        int t = s;
-        while (s == t) {
-            t = random.nextInt(n);
+        int source = random.nextInt(n);
+        int target = source;
+        while (source == target) {
+            target = random.nextInt(n);
         }
-        return new int[]{s, t};
+        return new int[]{source, target};
     }
 }

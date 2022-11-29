@@ -4,11 +4,10 @@ import com.algoproject.algorithms.DijkstraWithHeap;
 import com.algoproject.algorithms.DijkstraWithoutHeap;
 import com.algoproject.algorithms.Kruskal;
 import com.algoproject.model.Graph;
+import com.algoproject.model.GraphType;
 
-import java.util.concurrent.TimeUnit;
-
-import static com.algoproject.graph.GraphGenerator.generateGraph;
-import static com.algoproject.graph.GraphGenerator.getRandomSourceAndTarget;
+import static com.algoproject.graph.GraphGenerator.*;
+import static com.algoproject.model.GraphType.*;
 
 public class Main {
     public static int noOfNodes = 5000; // No. of vertices
@@ -19,14 +18,16 @@ public class Main {
         for (int i = 0; i < 5; i++) {
 
             System.out.println("===================Operation for graph 1===================");
-            Graph graph1 = new Graph(noOfNodes);
-            generateGraph(graph1, weightLimit, 5);
+            Graph graph1 = new Graph(noOfNodes, SPARSE);
+            generateGraph(graph1, weightLimit, 6);
+            calculateAvgDegree(graph1);
             System.out.println("------------Testing Graph1 for 5 s-t pairs------------");
             applyAlgorithms(graph1);
 
             System.out.println("===================Operation for graph 2===================");
-            Graph graph2 = new Graph(noOfNodes);
+            Graph graph2 = new Graph(noOfNodes, DENSE);
             generateGraph(graph2, weightLimit, (int) Math.round(noOfNodes * 0.165));
+            calculateDegreePercentage(graph2);
             System.out.println("------------Testing Graph2 for 5 s-t pairs------------");
             applyAlgorithms(graph2);
 
