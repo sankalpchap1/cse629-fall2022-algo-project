@@ -150,7 +150,7 @@ public class GraphGenerator {
      */
     private static boolean checkAdjList(Vertex vertex, int destination) {
         while (vertex != null) {
-            if (vertex.getVertex() == destination) {
+            if (vertex.getVertexId() == destination) {
                 return false;
             } else {
                 vertex = vertex.getNext();

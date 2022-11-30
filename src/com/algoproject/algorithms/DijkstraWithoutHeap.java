@@ -31,28 +31,28 @@ public class DijkstraWithoutHeap {
         List<Vertex> fringes = new ArrayList<>();
         // Add the neighbors of the source to fringes and mark their status as FRINGE
         while (temp != null) {
-            status[temp.getVertex()] = FRINGE;
-            parent[temp.getVertex()] = source;
-            bw[temp.getVertex()] = temp.getEdgeWeight();
+            status[temp.getVertexId()] = FRINGE;
+            parent[temp.getVertexId()] = source;
+            bw[temp.getVertexId()] = temp.getEdgeWeight();
             fringes.add(temp);
             temp = temp.getNext();
         }
 
         while (!fringes.isEmpty()) {
             Vertex maxFringe = extractFringeWithMaximumBandwidth(fringes);
-            status[maxFringe.getVertex()] = INTREE;
-            Vertex node = vertices[maxFringe.getVertex()];
+            status[maxFringe.getVertexId()] = INTREE;
+            Vertex node = vertices[maxFringe.getVertexId()];
             while (node != null) {
-                if (status[node.getVertex()] == UNSEEN) {
-                    status[node.getVertex()] = FRINGE;
-                    parent[node.getVertex()] = maxFringe.getVertex();
-                    bw[node.getVertex()] = Math.min(bw[maxFringe.getVertex()], node.getEdgeWeight());
-                    fringes.add(new Vertex(node.getVertex(), bw[node.getVertex()], 0, null));
-                } else if (status[node.getVertex()] == FRINGE
-                        && bw[node.getVertex()] < Math.min(bw[maxFringe.getVertex()], node.getEdgeWeight())) {
-                    parent[node.getVertex()] = maxFringe.getVertex();
-                    bw[node.getVertex()] = Math.min(bw[maxFringe.getVertex()], node.getEdgeWeight());
-                    fringeUpdates(fringes, node.getVertex(), bw[node.getVertex()]);
+                if (status[node.getVertexId()] == UNSEEN) {
+                    status[node.getVertexId()] = FRINGE;
+                    parent[node.getVertexId()] = maxFringe.getVertexId();
+                    bw[node.getVertexId()] = Math.min(bw[maxFringe.getVertexId()], node.getEdgeWeight());
+                    fringes.add(new Vertex(node.getVertexId(), bw[node.getVertexId()], 0, null));
+                } else if (status[node.getVertexId()] == FRINGE
+                        && bw[node.getVertexId()] < Math.min(bw[maxFringe.getVertexId()], node.getEdgeWeight())) {
+                    parent[node.getVertexId()] = maxFringe.getVertexId();
+                    bw[node.getVertexId()] = Math.min(bw[maxFringe.getVertexId()], node.getEdgeWeight());
+                    fringeUpdates(fringes, node.getVertexId(), bw[node.getVertexId()]);
                 }
                 node = node.getNext();
             }
@@ -90,7 +90,7 @@ public class DijkstraWithoutHeap {
 
     private static void fringeUpdates(List<Vertex> fringes, int vertex, int updatedWt) {
         for (Vertex fringe : fringes) {
-            if (fringe.getVertex() == vertex) {
+            if (fringe.getVertexId() == vertex) {
                 fringe.setEdgeWeight(updatedWt);
             }
         }

@@ -44,10 +44,10 @@ public class Kruskal {
 
         visited[node] = true;
         maxST.get(node).forEach(edge -> {
-            if (!visited[edge.getVertex()]) {
+            if (!visited[edge.getVertexId()]) {
                 // Standard backtracking template
-                path.add(edge.getVertex());
-                int nextNode = edge.getVertex();
+                path.add(edge.getVertexId());
+                int nextNode = edge.getVertexId();
                 dfs(nextNode, destination, maxST, visited, path, Math.min(bandwidth, edge.getEdgeWeight()));
                 path.remove(path.size() - 1);
             }

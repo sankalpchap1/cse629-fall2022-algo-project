@@ -4,13 +4,13 @@ import jdk.jfr.Description;
 
 @Description("Data Structure to store the Vertex in graph")
 public class Vertex {
-    private final int vertex;
+    private final int vertexId;
     private int edgeWeight;
     private final int degree;
     private final Vertex next;
 
-    public Vertex(int vertex, int edgeWeight, int degree, Vertex next) {
-        this.vertex = vertex;
+    public Vertex(int vertexId, int edgeWeight, int degree, Vertex next) {
+        this.vertexId = vertexId;
         this.edgeWeight = edgeWeight;
         this.degree = degree;
         this.next = next;
@@ -20,8 +20,8 @@ public class Vertex {
         return degree;
     }
 
-    public int getVertex() {
-        return vertex;
+    public int getVertexId() {
+        return vertexId;
     }
 
     public int getEdgeWeight() {

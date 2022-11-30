@@ -27,10 +27,10 @@ public class DijkstraWithHeap {
         Vertex[] vertices = graph.getVertices();
         Vertex temp = vertices[source];
         while (temp != null) {
-            status[temp.getVertex()] = FRINGE;
-            dad[temp.getVertex()] = source;
-            bw[temp.getVertex()] = temp.getEdgeWeight();
-            VertexHeap.insert(temp.getVertex(), bw[temp.getVertex()]);
+            status[temp.getVertexId()] = FRINGE;
+            dad[temp.getVertexId()] = source;
+            bw[temp.getVertexId()] = temp.getEdgeWeight();
+            VertexHeap.insert(temp.getVertexId(), bw[temp.getVertexId()]);
             temp = temp.getNext();
         }
 
@@ -40,17 +40,17 @@ public class DijkstraWithHeap {
             status[maxIndex] = INTREE;
             Vertex node = vertices[maxIndex];
             while (node != null) {
-                if (status[node.getVertex()] == UNSEEN) {
-                    status[node.getVertex()] = FRINGE;
-                    dad[node.getVertex()] = maxIndex;
-                    bw[node.getVertex()] = Math.min(bw[maxIndex], node.getEdgeWeight());
-                    VertexHeap.insert(node.getVertex(), bw[node.getVertex()]);
-                } else if (status[node.getVertex()] == FRINGE
-                        && bw[node.getVertex()] < Math.min(bw[maxIndex], node.getEdgeWeight())) {
-                    VertexHeap.delete(node.getVertex());
-                    dad[node.getVertex()] = maxIndex;
-                    bw[node.getVertex()] = Math.min(bw[maxIndex], node.getEdgeWeight());
-                    VertexHeap.insert(node.getVertex(), bw[node.getVertex()]);
+                if (status[node.getVertexId()] == UNSEEN) {
+                    status[node.getVertexId()] = FRINGE;
+                    dad[node.getVertexId()] = maxIndex;
+                    bw[node.getVertexId()] = Math.min(bw[maxIndex], node.getEdgeWeight());
+                    VertexHeap.insert(node.getVertexId(), bw[node.getVertexId()]);
+                } else if (status[node.getVertexId()] == FRINGE
+                        && bw[node.getVertexId()] < Math.min(bw[maxIndex], node.getEdgeWeight())) {
+                    VertexHeap.delete(node.getVertexId());
+                    dad[node.getVertexId()] = maxIndex;
+                    bw[node.getVertexId()] = Math.min(bw[maxIndex], node.getEdgeWeight());
+                    VertexHeap.insert(node.getVertexId(), bw[node.getVertexId()]);
                 }
                 node = node.getNext();
             }
