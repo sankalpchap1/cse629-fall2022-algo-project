@@ -4,10 +4,10 @@ import com.algoproject.algorithms.DijkstraWithHeap;
 import com.algoproject.algorithms.DijkstraWithoutHeap;
 import com.algoproject.algorithms.Kruskal;
 import com.algoproject.model.Graph;
-import com.algoproject.model.GraphType;
 
 import static com.algoproject.graph.GraphGenerator.*;
-import static com.algoproject.model.GraphType.*;
+import static com.algoproject.model.GraphType.DENSE;
+import static com.algoproject.model.GraphType.SPARSE;
 
 public class Main {
     public static int noOfNodes = 5000; // No. of vertices
@@ -57,7 +57,7 @@ public class Main {
             startTime = System.nanoTime();
             Kruskal.apply(graph, source, target);
             endTime = System.nanoTime();
-            timeElapsed = (endTime - startTime)/1E6;
+            timeElapsed = (endTime - startTime) / 1E6;
             System.out.println("TimeRequires for Kruskal (in millisecond): " + timeElapsed);
             System.out.println("==================================================================");
         }

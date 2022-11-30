@@ -17,12 +17,12 @@ public class DijkstraWithoutHeap {
         int n = graph.getNoOfNodes();
 
         // Initialization of three arrays
-        int[] dad = new int[n];
+        int[] parent = new int[n];
         Status[] status = new Status[n];
         Arrays.fill(status, UNSEEN);
         int[] bw = new int[n];
 
-        dad[source] = -1;
+        parent[source] = -1;
         status[source] = INTREE;
         bw[source] = Integer.MAX_VALUE;
 
@@ -32,7 +32,7 @@ public class DijkstraWithoutHeap {
         // Add the neighbors of the source to fringes and mark their status as FRINGE
         while (temp != null) {
             status[temp.getVertex()] = FRINGE;
-            dad[temp.getVertex()] = source;
+            parent[temp.getVertex()] = source;
             bw[temp.getVertex()] = temp.getEdgeWeight();
             fringes.add(temp);
             temp = temp.getNext();
@@ -45,12 +45,12 @@ public class DijkstraWithoutHeap {
             while (node != null) {
                 if (status[node.getVertex()] == UNSEEN) {
                     status[node.getVertex()] = FRINGE;
-                    dad[node.getVertex()] = maxFringe.getVertex();
+                    parent[node.getVertex()] = maxFringe.getVertex();
                     bw[node.getVertex()] = Math.min(bw[maxFringe.getVertex()], node.getEdgeWeight());
                     fringes.add(new Vertex(node.getVertex(), bw[node.getVertex()], 0, null));
                 } else if (status[node.getVertex()] == FRINGE
                         && bw[node.getVertex()] < Math.min(bw[maxFringe.getVertex()], node.getEdgeWeight())) {
-                    dad[node.getVertex()] = maxFringe.getVertex();
+                    parent[node.getVertex()] = maxFringe.getVertex();
                     bw[node.getVertex()] = Math.min(bw[maxFringe.getVertex()], node.getEdgeWeight());
                     fringeUpdates(fringes, node.getVertex(), bw[node.getVertex()]);
                 }
@@ -63,7 +63,7 @@ public class DijkstraWithoutHeap {
         System.out.print("s-t path: ");
         while (target != source) {
             System.out.print(target + " <–– ");
-            target = dad[target];
+            target = parent[target];
         }
         System.out.println(target);
     }

@@ -10,21 +10,22 @@ public class VertexHeap {
     private static int[] Heap; // To store BW of vertex
 
     // H array as per project description
-    private static int[] vertices;// To get the vertex value
+    private static int[] vertexArray;// To get the vertex value
 
     // P array as per project description
     private static int[] positionArray;// To get the index index referenced to heap from Vertex Number
 
+    private static int maxsize;
+
     // Current size of the heap
     private static int size;
 
-    private static int maxsize;
 
     public static void init(int maxsize) {
-        VertexHeap.maxsize = maxsize;
         size = 0;
+        VertexHeap.maxsize = maxsize;
         Heap = new int[maxsize];
-        vertices = new int[maxsize];
+        vertexArray = new int[maxsize];
         positionArray = new int[maxsize];
         Arrays.fill(positionArray, -1);
     }
@@ -37,29 +38,29 @@ public class VertexHeap {
         return (pos - 1) / 2;
     }
 
-    private static int leftChild(int pos) {
-        return 1 + (2 * pos);
+    private static boolean isLeaf(int pos) {
+        return pos <= size && pos > (size / 2);
     }
 
     private static int rightChild(int pos) {
         return 2 + (2 * pos);
     }
 
-    private static boolean isLeaf(int pos) {
-        return pos <= size && pos > (size / 2) ;
+    private static int leftChild(int pos) {
+        return 1 + (2 * pos);
     }
 
-    private static void swap(int pos1, int pos2) {
-        positionArray[vertices[pos1]] = pos2;
-        positionArray[vertices[pos2]] = pos1;
+    private static void swapNodes(int pos1, int pos2) {
+        positionArray[vertexArray[pos1]] = pos2;
+        positionArray[vertexArray[pos2]] = pos1;
 
-        int tempVertices = vertices[pos1];
-        vertices[pos1] = vertices[pos2];
-        vertices[pos2] = tempVertices;
+        int tempVertices = vertexArray[pos1];
+        vertexArray[pos1] = vertexArray[pos2];
+        vertexArray[pos2] = tempVertices;
 
-        int tmp = Heap[pos1];
+        int dummy = Heap[pos1];
         Heap[pos1] = Heap[pos2];
-        Heap[pos2] = tmp;
+        Heap[pos2] = dummy;
     }
 
     private static void maxHeapify(int pos) {
@@ -71,10 +72,10 @@ public class VertexHeap {
 
             if (Heap[leftChild(pos)]
                     > Heap[rightChild(pos)]) {
-                swap(pos, leftChild(pos));
+                swapNodes(pos, leftChild(pos));
                 maxHeapify(leftChild(pos));
             } else {
-                swap(pos, rightChild(pos));
+                swapNodes(pos, rightChild(pos));
                 maxHeapify(rightChild(pos));
             }
         }
@@ -83,13 +84,13 @@ public class VertexHeap {
     public static void insert(int vertex, int element) {
         handleCapacityOverflow();
         Heap[size] = element;
-        vertices[size] = vertex;
+        vertexArray[size] = vertex;
         positionArray[vertex] = size;
 
-        int current = size;
-        while (Heap[current] > Heap[parent(current)]) {
-            swap(current, parent(current));
-            current = parent(current);
+        int curr = size;
+        while (Heap[parent(curr)] < Heap[curr]) {
+            swapNodes( parent(curr), curr);
+            curr = parent(curr);
         }
         size++;
     }
@@ -97,30 +98,30 @@ public class VertexHeap {
     private static void handleCapacityOverflow() {
         if (size == maxsize) {
             Heap = Arrays.copyOf(Heap, maxsize * 2);
-            vertices = Arrays.copyOf(vertices, maxsize * 2);
+            vertexArray = Arrays.copyOf(vertexArray, maxsize * 2);
             positionArray = Arrays.copyOf(positionArray, maxsize * 2);
             maxsize = maxsize * 2;
         }
     }
 
     public static int popMax(int index) {
-        int popped = vertices[index];
+        int popped = vertexArray[index];
         size--;
         Heap[index] = Heap[size];
-        vertices[index] = vertices[size];
-        positionArray[vertices[size]] = positionArray[popped];
+        vertexArray[index] = vertexArray[size];
+        positionArray[vertexArray[size]] = positionArray[popped];
 
         maxHeapify(index);
 
         Heap[size] = 0;
-        vertices[size] = 0;
+        vertexArray[size] = 0;
         positionArray[popped] = -1;
 
         return popped;
     }
 
     public static void main(String[] arg) {
-        System.out.println("Testing Vertex Heap ");
+        System.out.println("Testing Vertex Heap...");
 
         VertexHeap.init(15);
 

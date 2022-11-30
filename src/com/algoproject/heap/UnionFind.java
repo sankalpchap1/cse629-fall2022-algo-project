@@ -22,13 +22,6 @@ public class UnionFind {
         }
     }
 
-    public int find(int x) {
-        while (parent[x]!=x){
-            x = parent[x];
-        }
-        return x;
-    }
-
     public void union(int node1, int node2) {
         int r1 = find(node1);
         int r2 = find(node2);
@@ -40,6 +33,13 @@ public class UnionFind {
             parent[r2] = r1;
             rank[r1]++;
         }
+    }
+
+    public int find(int x) {
+        while (parent[x] != x) {
+            x = parent[x];
+        }
+        return x;
     }
 
     private void maxHeapify(List<Edge> edges, int n, int i) {

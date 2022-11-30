@@ -81,6 +81,11 @@ public class GraphGenerator {
         }
     }
 
+    /**
+     * @param graph        : container for the dense graph
+     * @param weightLimit  : max Weight assigned for the edges -> weights are generated from randomWeightGenerator
+     * @param targetDegree : avg degree which is to be achieved for dense graph
+     */
     public static void completeSparseGraph(Graph graph, int weightLimit, int targetDegree) {
         int n = graph.getNoOfNodes();
         Vertex[] vertices = graph.getVertices();
@@ -92,7 +97,7 @@ public class GraphGenerator {
             int source = random.nextInt(n);
             int destination = random.nextInt(n);
 
-            if (!checkAdjList(vertices[source], destination) && source != destination) {
+            if (checkAdjList(vertices[source], destination) && source != destination) {
                 // random edge weight generator variable
                 int weight = getRandomWeight(weightLimit);
                 edges.add(new Edge(source, destination, weight));
@@ -103,6 +108,11 @@ public class GraphGenerator {
         }
     }
 
+    /**
+     * @param graph        : container for the dense graph
+     * @param weightLimit  : max Weight assigned for the edges -> weights are generated from randomWeightGenerator
+     * @param targetDegree : avg degree which is to be achieved for dense graph
+     */
     private static void completeDenseGraph(Graph graph, int weightLimit, int targetDegree) {
         int n = graph.getNoOfNodes();
         int destination; // random destination variable
@@ -114,7 +124,7 @@ public class GraphGenerator {
             while (currDegree < targetDegree) {
                 destination = random.nextInt(n);
 
-                if (!checkAdjList(graph.getVertices()[i], destination)
+                if (checkAdjList(graph.getVertices()[i], destination)
                         && i != destination
                 ) {
                     weight = getRandomWeight(weightLimit);
@@ -133,15 +143,20 @@ public class GraphGenerator {
         return random.nextInt(weightLimit) + 1;
     }
 
+    /**
+     * @param vertex      : head of the Linked List
+     * @param destination : the destination
+     * @return : false if the destination exists in the linked list otherwise true
+     */
     private static boolean checkAdjList(Vertex vertex, int destination) {
         while (vertex != null) {
             if (vertex.getVertex() == destination) {
-                return true;
+                return false;
             } else {
                 vertex = vertex.getNext();
             }
         }
-        return false;
+        return true;
     }
 
     private static void generateMST(Graph graph) {

@@ -19,9 +19,9 @@ public class DijkstraWithHeap {
         Arrays.fill(status, UNSEEN);
         int[] bw = new int[n];
 
-
         status[source] = INTREE;
 
+        // Initialize the vertex heap
         VertexHeap.init(n);
         // add nodes from src
         Vertex[] vertices = graph.getVertices();

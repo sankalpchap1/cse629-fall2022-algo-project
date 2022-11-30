@@ -18,7 +18,7 @@ public class Kruskal {
         maximumBandwidthPath.clear();
         ArrayList<Integer> path = new ArrayList<>();
         path.add(source);
-        dfs(graph.getMaxSpanningTree(), visited, source, destination, path, Integer.MAX_VALUE);
+        dfs(source, destination, graph.getMaxSpanningTree(), visited, path, Integer.MAX_VALUE);
         System.out.println("Max BW from Kruskal's using Heap is: " + maximumBandwidth);
 
         System.out.print("s-t path: ");
@@ -29,13 +29,14 @@ public class Kruskal {
     }
 
 
-    private static void dfs(Map<Integer, List<Vertex>> maxST, boolean[] visited,
-                            int node, int dest, List<Integer> path, int bandwidth) {
+    private static void dfs(int node, int destination,
+                            Map<Integer, List<Vertex>> maxST, boolean[] visited,
+                            List<Integer> path, int bandwidth) {
         if (maximumBandwidthPath != null && !maximumBandwidthPath.isEmpty()) {
             return;
         }
 
-        if (node == dest) {
+        if (node == destination) {
             maximumBandwidthPath = new ArrayList<>(path);
             maximumBandwidth = bandwidth;
             return;
@@ -47,7 +48,7 @@ public class Kruskal {
                 // Standard backtracking template
                 path.add(edge.getVertex());
                 int nextNode = edge.getVertex();
-                dfs(maxST, visited, nextNode, dest, path, Math.min(bandwidth, edge.getEdgeWeight()));
+                dfs(nextNode, destination, maxST, visited, path, Math.min(bandwidth, edge.getEdgeWeight()));
                 path.remove(path.size() - 1);
             }
         });
