@@ -7,7 +7,7 @@ import java.util.Arrays;
 @Description("Data Structure to implement max Heap for Vertices using H, P and D array used in Dijkstra's algorithm")
 public class VertexHeap {
     // D array as per project description
-    private static int[] Heap; // To store BW of vertex
+    private static int[] heapArray; // To store BW of vertex
 
     // H array as per project description
     private static int[] vertexArray;// To get the vertex value
@@ -24,7 +24,7 @@ public class VertexHeap {
     public static void init(int maxsize) {
         size = 0;
         VertexHeap.maxsize = maxsize;
-        Heap = new int[maxsize];
+        heapArray = new int[maxsize];
         vertexArray = new int[maxsize];
         positionArray = new int[maxsize];
         Arrays.fill(positionArray, -1);
@@ -58,20 +58,20 @@ public class VertexHeap {
         vertexArray[pos1] = vertexArray[pos2];
         vertexArray[pos2] = tempVertices;
 
-        int dummy = Heap[pos1];
-        Heap[pos1] = Heap[pos2];
-        Heap[pos2] = dummy;
+        int dummy = heapArray[pos1];
+        heapArray[pos1] = heapArray[pos2];
+        heapArray[pos2] = dummy;
     }
 
     private static void maxHeapify(int pos) {
         if (isLeaf(pos))
             return;
 
-        if (Heap[pos] < Heap[leftChild(pos)]
-                || Heap[pos] < Heap[rightChild(pos)]) {
+        if (heapArray[pos] < heapArray[leftChild(pos)]
+                || heapArray[pos] < heapArray[rightChild(pos)]) {
 
-            if (Heap[leftChild(pos)]
-                    > Heap[rightChild(pos)]) {
+            if (heapArray[leftChild(pos)]
+                    > heapArray[rightChild(pos)]) {
                 swapNodes(pos, leftChild(pos));
                 maxHeapify(leftChild(pos));
             } else {
@@ -81,14 +81,14 @@ public class VertexHeap {
         }
     }
 
-    public static void insert(int vertex, int element) {
+    public static void insert(int vertex, int bandwidth) {
         handleCapacityOverflow();
-        Heap[size] = element;
+        heapArray[size] = bandwidth;
         vertexArray[size] = vertex;
         positionArray[vertex] = size;
 
         int curr = size;
-        while (Heap[parent(curr)] < Heap[curr]) {
+        while (heapArray[parent(curr)] < heapArray[curr]) {
             swapNodes( parent(curr), curr);
             curr = parent(curr);
         }
@@ -97,7 +97,7 @@ public class VertexHeap {
 
     private static void handleCapacityOverflow() {
         if (size == maxsize) {
-            Heap = Arrays.copyOf(Heap, maxsize * 2);
+            heapArray = Arrays.copyOf(heapArray, maxsize * 2);
             vertexArray = Arrays.copyOf(vertexArray, maxsize * 2);
             positionArray = Arrays.copyOf(positionArray, maxsize * 2);
             maxsize = maxsize * 2;
@@ -107,13 +107,13 @@ public class VertexHeap {
     public static int popMax(int index) {
         int popped = vertexArray[index];
         size--;
-        Heap[index] = Heap[size];
+        heapArray[index] = heapArray[size];
         vertexArray[index] = vertexArray[size];
         positionArray[vertexArray[size]] = positionArray[popped];
 
         maxHeapify(index);
 
-        Heap[size] = 0;
+        heapArray[size] = 0;
         vertexArray[size] = 0;
         positionArray[popped] = -1;
 
