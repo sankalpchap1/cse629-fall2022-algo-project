@@ -35,11 +35,12 @@ public class UnionFind {
         }
     }
 
-    public int find(int x) {
-        while (parent[x] != x) {
-            x = parent[x];
+    public int find(int node) {
+        if (parent[node] != node) {
+            // implementing the path compression to optimize the future searches
+            parent[node] = find(parent[node]);
         }
-        return x;
+        return parent[node];
     }
 
     private void maxHeapify(List<Edge> edges, int n, int i) {

@@ -39,19 +39,19 @@ public class DijkstraWithoutHeap {
         }
 
         while (!fringes.isEmpty()) {
-            Vertex maxFringe = extractFringeWithMaximumBandwidth(fringes);
-            status[maxFringe.getVertexId()] = INTREE;
-            Vertex node = vertices[maxFringe.getVertexId()];
+            int maxFringeId = extractFringeWithMaximumBandwidth(fringes);
+            status[maxFringeId] = INTREE;
+            Vertex node = vertices[maxFringeId];
             while (node != null) {
                 if (status[node.getVertexId()] == UNSEEN) {
                     status[node.getVertexId()] = FRINGE;
-                    parent[node.getVertexId()] = maxFringe.getVertexId();
-                    bw[node.getVertexId()] = Math.min(bw[maxFringe.getVertexId()], node.getEdgeWeight());
+                    parent[node.getVertexId()] = maxFringeId;
+                    bw[node.getVertexId()] = Math.min(bw[maxFringeId], node.getEdgeWeight());
                     fringes.add(new Vertex(node.getVertexId(), bw[node.getVertexId()], 0, null));
                 } else if (status[node.getVertexId()] == FRINGE
-                        && bw[node.getVertexId()] < Math.min(bw[maxFringe.getVertexId()], node.getEdgeWeight())) {
-                    parent[node.getVertexId()] = maxFringe.getVertexId();
-                    bw[node.getVertexId()] = Math.min(bw[maxFringe.getVertexId()], node.getEdgeWeight());
+                        && bw[node.getVertexId()] < Math.min(bw[maxFringeId], node.getEdgeWeight())) {
+                    parent[node.getVertexId()] = maxFringeId;
+                    bw[node.getVertexId()] = Math.min(bw[maxFringeId], node.getEdgeWeight());
                     fringeUpdates(fringes, node.getVertexId(), bw[node.getVertexId()]);
                 }
                 node = node.getNext();
@@ -68,7 +68,7 @@ public class DijkstraWithoutHeap {
         System.out.println(target);
     }
 
-    private static Vertex extractFringeWithMaximumBandwidth(List<Vertex> fringes) {
+    private static int extractFringeWithMaximumBandwidth(List<Vertex> fringes) {
         Vertex maxFringe = null;
         int maxBW = fringes.stream()
                 .map(Vertex::getEdgeWeight)
@@ -85,7 +85,7 @@ public class DijkstraWithoutHeap {
             }
         }
         fringes.remove(id);
-        return maxFringe;
+        return maxFringe.getVertexId();
     }
 
     private static void fringeUpdates(List<Vertex> fringes, int vertex, int updatedWt) {
